@@ -22,13 +22,9 @@ class HomeView extends StackedView<HomeViewModel> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                'WPGG',
-                style: TextStyle(
-                  fontSize: 48,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.white,
-                ),
+              Image.asset(
+                'assets/logo-wpgg.png',
+                width: 150,
               ),
               const SizedBox(height: 40),
               Padding(
