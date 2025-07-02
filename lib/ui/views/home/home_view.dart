@@ -21,37 +21,54 @@ class HomeView extends StackedView<HomeViewModel> {
                 width: 450,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintText: 'Game name',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide.none,
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          width: 200,
+                          child: TextField(
+                            controller: viewModel.gameController,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
+                              hintText: 'Game name',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                        const SizedBox(width: 16),
+                        SizedBox(
+                          width: 80,
+                          child: TextField(
+                            controller: viewModel.tagController,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
+                              hintText: 'Tag',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 16),
-                    SizedBox(
-                      width: 100,
-                      child: TextField(
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintText: 'Tag',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: viewModel.search,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: kcPrimaryColor,
+                        foregroundColor: Colors.white,
                       ),
+                      child: const Text('Search'),
                     ),
                   ],
                 ),

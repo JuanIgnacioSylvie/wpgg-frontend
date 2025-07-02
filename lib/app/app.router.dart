@@ -11,15 +11,19 @@ import 'package:stacked/stacked.dart' as _i1;
 import 'package:stacked_services/stacked_services.dart' as _i5;
 import 'package:wpgg/ui/views/home/home_view.dart' as _i2;
 import 'package:wpgg/ui/views/startup/startup_view.dart' as _i3;
+import 'package:wpgg/ui/views/profile/profile_view.dart' as _i6;
 
 class Routes {
   static const homeView = '/home-view';
 
   static const startupView = '/startup-view';
 
+  static const profileView = '/profile-view';
+
   static const all = <String>{
     homeView,
     startupView,
+    profileView,
   };
 }
 
@@ -33,6 +37,10 @@ class StackedRouter extends _i1.RouterBase {
       Routes.startupView,
       page: _i3.StartupView,
     ),
+    _i1.RouteDef(
+      Routes.profileView,
+      page: _i6.ProfileView,
+    ),
   ];
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
@@ -45,6 +53,12 @@ class StackedRouter extends _i1.RouterBase {
     _i3.StartupView: (data) {
       return _i4.MaterialPageRoute<dynamic>(
         builder: (context) => const _i3.StartupView(),
+        settings: data,
+      );
+    },
+    _i6.ProfileView: (data) {
+      return _i4.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i6.ProfileView(),
         settings: data,
       );
     },
@@ -86,6 +100,20 @@ extension NavigatorStateExtension on _i5.NavigationService {
         transition: transition);
   }
 
+  Future<dynamic> navigateToProfileView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.profileView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
   Future<dynamic> replaceWithHomeView([
     int? routerId,
     bool preventDuplicates = true,
@@ -108,6 +136,20 @@ extension NavigatorStateExtension on _i5.NavigationService {
         transition,
   ]) async {
     return replaceWith<dynamic>(Routes.startupView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithProfileView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.profileView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
