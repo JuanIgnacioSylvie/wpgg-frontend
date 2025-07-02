@@ -2,6 +2,10 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:wpgg/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:wpgg/services/env_service.dart';
+import 'package:wpgg/services/backend_api_service.dart';
+import 'package:wpgg/services/riot_api_service.dart';
+import 'package:wpgg/services/secure_storage_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -12,14 +16,22 @@ import 'test_helpers.mocks.dart';
     MockSpec<NavigationService>(onMissingStub: OnMissingStub.returnDefault),
     MockSpec<BottomSheetService>(onMissingStub: OnMissingStub.returnDefault),
     MockSpec<DialogService>(onMissingStub: OnMissingStub.returnDefault),
-    // @stacked-mock-spec
+    MockSpec<EnvService>(onMissingStub: OnMissingStub.returnDefault),
+    MockSpec<BackendApiService>(onMissingStub: OnMissingStub.returnDefault),
+    MockSpec<RiotApiService>(onMissingStub: OnMissingStub.returnDefault),
+    MockSpec<SecureStorageService>(onMissingStub: OnMissingStub.returnDefault),
+// @stacked-mock-spec
   ],
 )
 void registerServices() {
   getAndRegisterNavigationService();
   getAndRegisterBottomSheetService();
   getAndRegisterDialogService();
-  // @stacked-mock-register
+  getAndRegisterEnvService();
+  getAndRegisterBackendApiService();
+  getAndRegisterRiotApiService();
+  getAndRegisterSecureStorageService();
+// @stacked-mock-register
 }
 
 MockNavigationService getAndRegisterNavigationService() {
@@ -76,6 +88,33 @@ MockDialogService getAndRegisterDialogService() {
   return service;
 }
 
+MockEnvService getAndRegisterEnvService() {
+  _removeRegistrationIfExists<EnvService>();
+  final service = MockEnvService();
+  locator.registerSingleton<EnvService>(service);
+  return service;
+}
+
+MockBackendApiService getAndRegisterBackendApiService() {
+  _removeRegistrationIfExists<BackendApiService>();
+  final service = MockBackendApiService();
+  locator.registerSingleton<BackendApiService>(service);
+  return service;
+}
+
+MockRiotApiService getAndRegisterRiotApiService() {
+  _removeRegistrationIfExists<RiotApiService>();
+  final service = MockRiotApiService();
+  locator.registerSingleton<RiotApiService>(service);
+  return service;
+}
+
+MockSecureStorageService getAndRegisterSecureStorageService() {
+  _removeRegistrationIfExists<SecureStorageService>();
+  final service = MockSecureStorageService();
+  locator.registerSingleton<SecureStorageService>(service);
+  return service;
+}
 // @stacked-mock-create
 
 void _removeRegistrationIfExists<T extends Object>() {

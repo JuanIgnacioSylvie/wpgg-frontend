@@ -11,22 +11,15 @@ class HomeView extends StackedView<HomeViewModel> {
   Widget builder(BuildContext context, HomeViewModel viewModel, Widget? child) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [kcPrimaryColor, kcPrimaryColorDark],
-          ),
-        ),
+        decoration: const BoxDecoration(color: Colors.white),
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Image.asset(
-                'assets/logo-wpgg.png',
-                width: 150,
+                'WPGG_w_500_200.png',
+                width: 450,
               ),
-              const SizedBox(height: 40),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
