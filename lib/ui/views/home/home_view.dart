@@ -21,7 +21,8 @@ class HomeView extends StackedView<HomeViewModel> {
                 width: 450,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [

@@ -49,8 +49,8 @@ class RiotApiService {
       return AccountDTO.fromJson(cached as Map<String, dynamic>);
     }
 
-    final data = await _api
-        .get('$_base/profile/$gameName/$tagLine') as Map<String, dynamic>;
+    final data = await _api.get('$_base/profile/$gameName/$tagLine')
+        as Map<String, dynamic>;
 
     await _secure.writeJson(cacheKey, data);
     return AccountDTO.fromJson(data);
@@ -66,8 +66,8 @@ class RiotApiService {
       return ProfileAccountDTO.fromJson(cached as Map<String, dynamic>);
     }
 
-    final data = await _api
-        .get('$_base/profile-account/$puuid') as Map<String, dynamic>;
+    final data =
+        await _api.get('$_base/profile-account/$puuid') as Map<String, dynamic>;
 
     await _secure.writeJson(cacheKey, data);
     return ProfileAccountDTO.fromJson(data);

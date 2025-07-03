@@ -5,13 +5,13 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:flutter/material.dart' as _i4;
+import 'package:flutter/material.dart' as _i5;
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i5;
+import 'package:stacked_services/stacked_services.dart' as _i6;
 import 'package:wpgg/ui/views/home/home_view.dart' as _i2;
+import 'package:wpgg/ui/views/profile/profile_view.dart' as _i4;
 import 'package:wpgg/ui/views/startup/startup_view.dart' as _i3;
-import 'package:wpgg/ui/views/profile/profile_view.dart' as _i6;
 
 class Routes {
   static const homeView = '/home-view';
@@ -39,26 +39,26 @@ class StackedRouter extends _i1.RouterBase {
     ),
     _i1.RouteDef(
       Routes.profileView,
-      page: _i6.ProfileView,
+      page: _i4.ProfileView,
     ),
   ];
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
     _i2.HomeView: (data) {
-      return _i4.MaterialPageRoute<dynamic>(
+      return _i5.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.HomeView(),
         settings: data,
       );
     },
     _i3.StartupView: (data) {
-      return _i4.MaterialPageRoute<dynamic>(
+      return _i5.MaterialPageRoute<dynamic>(
         builder: (context) => const _i3.StartupView(),
         settings: data,
       );
     },
-    _i6.ProfileView: (data) {
-      return _i4.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i6.ProfileView(),
+    _i4.ProfileView: (data) {
+      return _i5.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i4.ProfileView(),
         settings: data,
       );
     },
@@ -71,7 +71,7 @@ class StackedRouter extends _i1.RouterBase {
   Map<Type, _i1.StackedRouteFactory> get pagesMap => _pagesMap;
 }
 
-extension NavigatorStateExtension on _i5.NavigationService {
+extension NavigatorStateExtension on _i6.NavigationService {
   Future<dynamic> navigateToHomeView([
     int? routerId,
     bool preventDuplicates = true,
