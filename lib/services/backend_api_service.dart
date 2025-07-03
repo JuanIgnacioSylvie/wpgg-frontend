@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
@@ -70,7 +69,7 @@ class BackendApiService {
 
   void _throwIfInvalid(http.Response res) {
     if (res.statusCode >= 400) {
-      throw HttpException('Backend error → ${res.statusCode}: ${res.body}');
+      throw Exception('Backend error → ${res.statusCode}: ${res.body}');
     }
   }
 
