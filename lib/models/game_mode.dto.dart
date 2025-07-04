@@ -5,14 +5,14 @@ part 'game_mode.dto.g.dart';
 @JsonSerializable()
 class GameModeDTO {
   GameModeDTO({
-    required this.queueId,
-    required this.map,
+    this.queueId,
+    this.map,
     this.description,
     this.notes,
   });
 
-  int queueId;
-  String map;
+  int? queueId;
+  String? map;
   String? description;
   String? notes;
 

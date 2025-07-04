@@ -8,17 +8,22 @@ part of 'participant.dto.dart';
 
 ParticipantDTO _$ParticipantDTOFromJson(Map<String, dynamic> json) =>
     ParticipantDTO(
-      championName: json['championName'] as String,
-      kills: (json['kills'] as num).toInt(),
-      deaths: (json['deaths'] as num).toInt(),
-      assists: (json['assists'] as num).toInt(),
-      goldEarned: (json['goldEarned'] as num).toInt(),
-      win: json['win'] as bool,
-      accountDto:
-          AccountDTO.fromJson(json['accountDto'] as Map<String, dynamic>),
-      summonerSpellsDto: SummonerSpellsDTO.fromJson(
-          json['summonerSpellsDto'] as Map<String, dynamic>),
-      buildDto: BuildDTO.fromJson(json['buildDto'] as Map<String, dynamic>),
+      championName: json['championName'] as String?,
+      kills: (json['kills'] as num?)?.toInt(),
+      deaths: (json['deaths'] as num?)?.toInt(),
+      assists: (json['assists'] as num?)?.toInt(),
+      goldEarned: (json['goldEarned'] as num?)?.toInt(),
+      win: json['win'] as bool?,
+      accountDto: json['accountDto'] == null
+          ? null
+          : AccountDTO.fromJson(json['accountDto'] as Map<String, dynamic>),
+      summonerSpellsDto: json['summonerSpellsDto'] == null
+          ? null
+          : SummonerSpellsDTO.fromJson(
+              json['summonerSpellsDto'] as Map<String, dynamic>),
+      buildDto: json['buildDto'] == null
+          ? null
+          : BuildDTO.fromJson(json['buildDto'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ParticipantDTOToJson(ParticipantDTO instance) =>
@@ -29,7 +34,7 @@ Map<String, dynamic> _$ParticipantDTOToJson(ParticipantDTO instance) =>
       'assists': instance.assists,
       'goldEarned': instance.goldEarned,
       'win': instance.win,
-      'accountDto': instance.accountDto.toJson(),
-      'summonerSpellsDto': instance.summonerSpellsDto.toJson(),
-      'buildDto': instance.buildDto.toJson(),
+      'accountDto': instance.accountDto?.toJson(),
+      'summonerSpellsDto': instance.summonerSpellsDto?.toJson(),
+      'buildDto': instance.buildDto?.toJson(),
     };

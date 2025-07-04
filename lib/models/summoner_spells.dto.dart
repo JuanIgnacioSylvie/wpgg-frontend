@@ -5,16 +5,16 @@ part 'summoner_spells.dto.g.dart';
 @JsonSerializable()
 class SummonerSpellsDTO {
   SummonerSpellsDTO({
-    required this.summoner1Id,
-    required this.summoner2Id,
-    required this.summoner1Casts,
-    required this.summoner2Casts,
+    this.summoner1Id,
+    this.summoner2Id,
+    this.summoner1Casts,
+    this.summoner2Casts,
   });
 
-  int summoner1Id;
-  int summoner2Id;
-  int summoner1Casts;
-  int summoner2Casts;
+  int? summoner1Id;
+  int? summoner2Id;
+  int? summoner1Casts;
+  int? summoner2Casts;
 
   factory SummonerSpellsDTO.fromJson(Map<String, dynamic> json) =>
       _$SummonerSpellsDTOFromJson(json);

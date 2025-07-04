@@ -5,26 +5,26 @@ part 'build.dto.g.dart';
 @JsonSerializable()
 class BuildDTO {
   BuildDTO({
-    required this.item0,
-    required this.item1,
-    required this.item2,
-    required this.item3,
-    required this.item4,
-    required this.item5,
-    required this.item6,
-    required this.itemsPurchased,
-    required this.goldSpent,
+    this.item0,
+    this.item1,
+    this.item2,
+    this.item3,
+    this.item4,
+    this.item5,
+    this.item6,
+    this.itemsPurchased,
+    this.goldSpent,
   });
 
-  int item0;
-  int item1;
-  int item2;
-  int item3;
-  int item4;
-  int item5;
-  int item6;
-  int itemsPurchased;
-  int goldSpent;
+  int? item0;
+  int? item1;
+  int? item2;
+  int? item3;
+  int? item4;
+  int? item5;
+  int? item6;
+  int? itemsPurchased;
+  int? goldSpent;
 
   factory BuildDTO.fromJson(Map<String, dynamic> json) =>
       _$BuildDTOFromJson(json);

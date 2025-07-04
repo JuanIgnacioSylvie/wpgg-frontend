@@ -6,13 +6,13 @@ part 'account.dto.g.dart';
 class AccountDTO {
   AccountDTO({
     required this.puuid,
-    required this.gameName,
-    required this.tagLine,
+    this.gameName,
+    this.tagLine,
   });
 
   String puuid;
-  String gameName;
-  String tagLine;
+  String? gameName;
+  String? tagLine;
 
   factory AccountDTO.fromJson(Map<String, dynamic> json) =>
       _$AccountDTOFromJson(json);
