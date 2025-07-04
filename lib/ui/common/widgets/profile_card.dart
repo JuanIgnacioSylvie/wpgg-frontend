@@ -12,11 +12,11 @@ class ProfileCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Summoner Level: ${profile.summonerLevel}',
+          Text('Summoner Level: ${profile.summonerLevel ?? '-'}',
               style:
                   const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
-          Text('Profile ID: ${profile.id}',
+          Text('Profile ID: ${profile.id ?? '-'}',
               style: const TextStyle(fontSize: 14, color: Colors.grey)),
         ],
       ),

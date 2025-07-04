@@ -17,16 +17,16 @@ class MatchSummaryCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(match.gameMode,
+                Text(match.gameMode ?? 'N/A',
                     style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 4),
-                Text('Duration: ${match.gameDuration ~/ 60}m',
+                Text('Duration: ${(match.gameDuration ?? 0) ~/ 60}m',
                     style: const TextStyle(color: Colors.grey)),
               ],
             ),
           ),
-          Text('#${match.queueId}',
+          Text('#${match.queueId ?? '-'}',
               style: const TextStyle(color: Colors.grey, fontSize: 12)),
         ],
       ),

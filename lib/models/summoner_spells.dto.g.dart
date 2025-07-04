@@ -8,10 +8,10 @@ part of 'summoner_spells.dto.dart';
 
 SummonerSpellsDTO _$SummonerSpellsDTOFromJson(Map<String, dynamic> json) =>
     SummonerSpellsDTO(
-      summoner1Id: (json['summoner1Id'] as num).toInt(),
-      summoner2Id: (json['summoner2Id'] as num).toInt(),
-      summoner1Casts: (json['summoner1Casts'] as num).toInt(),
-      summoner2Casts: (json['summoner2Casts'] as num).toInt(),
+      summoner1Id: (json['summoner1Id'] as num?)?.toInt(),
+      summoner2Id: (json['summoner2Id'] as num?)?.toInt(),
+      summoner1Casts: (json['summoner1Casts'] as num?)?.toInt(),
+      summoner2Casts: (json['summoner2Casts'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$SummonerSpellsDTOToJson(SummonerSpellsDTO instance) =>

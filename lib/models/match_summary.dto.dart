@@ -8,20 +8,20 @@ part 'match_summary.dto.g.dart';
 @JsonSerializable(explicitToJson: true)
 class MatchSummaryDTO {
   MatchSummaryDTO({
-    required this.matchId,
-    required this.gameMode,
-    required this.queueId,
-    required this.gameDuration,
-    required this.participants,
-    required this.gameModeDto,
+    this.matchId,
+    this.gameMode,
+    this.queueId,
+    this.gameDuration,
+    this.participants,
+    this.gameModeDto,
   });
 
-  String matchId;
-  String gameMode;
-  int queueId;
-  int gameDuration; // seconds
-  List<ParticipantDTO> participants;
-  GameModeDTO gameModeDto;
+  String? matchId;
+  String? gameMode;
+  int? queueId;
+  int? gameDuration; // seconds
+  List<ParticipantDTO>? participants;
+  GameModeDTO? gameModeDto;
 
   factory MatchSummaryDTO.fromJson(Map<String, dynamic> json) =>
       _$MatchSummaryDTOFromJson(json);

@@ -7,8 +7,8 @@ part of 'game_mode.dto.dart';
 // **************************************************************************
 
 GameModeDTO _$GameModeDTOFromJson(Map<String, dynamic> json) => GameModeDTO(
-      queueId: (json['queueId'] as num).toInt(),
-      map: json['map'] as String,
+      queueId: (json['queueId'] as num?)?.toInt(),
+      map: json['map'] as String?,
       description: json['description'] as String?,
       notes: json['notes'] as String?,
     );

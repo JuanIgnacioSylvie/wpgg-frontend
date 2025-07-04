@@ -8,8 +8,8 @@ part of 'account.dto.dart';
 
 AccountDTO _$AccountDTOFromJson(Map<String, dynamic> json) => AccountDTO(
       puuid: json['puuid'] as String,
-      gameName: json['gameName'] as String,
-      tagLine: json['tagLine'] as String,
+      gameName: json['gameName'] as String?,
+      tagLine: json['tagLine'] as String?,
     );
 
 Map<String, dynamic> _$AccountDTOToJson(AccountDTO instance) =>

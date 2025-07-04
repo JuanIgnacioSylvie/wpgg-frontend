@@ -8,12 +8,12 @@ part of 'profile_account.dto.dart';
 
 ProfileAccountDTO _$ProfileAccountDTOFromJson(Map<String, dynamic> json) =>
     ProfileAccountDTO(
-      id: json['id'] as String,
-      accountId: json['accountId'] as String,
-      puuid: json['puuid'] as String,
-      revisionDate: (json['revisionDate'] as num).toInt(),
-      profileIconId: (json['profileIconId'] as num).toInt(),
-      summonerLevel: (json['summonerLevel'] as num).toInt(),
+      id: json['id'] as String?,
+      accountId: json['accountId'] as String?,
+      puuid: json['puuid'] as String?,
+      revisionDate: (json['revisionDate'] as num?)?.toInt(),
+      profileIconId: (json['profileIconId'] as num?)?.toInt(),
+      summonerLevel: (json['summonerLevel'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$ProfileAccountDTOToJson(ProfileAccountDTO instance) =>
