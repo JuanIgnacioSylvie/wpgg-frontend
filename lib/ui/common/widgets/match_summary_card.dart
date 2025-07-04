@@ -17,7 +17,7 @@ class MatchSummaryCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(match.gameMode ?? 'N/A',
+                Text(match.gameModeDto?.map ?? 'N/A',
                     style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 4),

@@ -23,9 +23,9 @@ class HomeViewModel extends BaseViewModel {
       );
       await _secure.write('last_puuid', account.puuid);
       await _nav.navigateToProfileView();
-    }catch(e) {
+    } catch (e) {
       debugPrint('$e');
-    }finally {
+    } finally {
       setBusy(false);
     }
   }
