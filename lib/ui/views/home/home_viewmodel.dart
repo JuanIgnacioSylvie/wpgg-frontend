@@ -10,9 +10,9 @@ class HomeViewModel extends BaseViewModel {
   final gameController = TextEditingController();
   final tagController = TextEditingController();
 
-  final _riot = locator<RiotApiService>();
-  final _nav = locator<NavigationService>();
-  final _secure = locator<SecureStorageService>();
+  final RiotApiService _riot = locator<RiotApiService>();
+  final NavigationService _nav = locator<NavigationService>();
+  final SecureStorageService _secure = locator<SecureStorageService>();
 
   Future<void> search() async {
     setBusy(true);

@@ -14,7 +14,7 @@ class RiotApiService {
   final BackendApiService _api;
   final SecureStorageService _secure;
 
-  static const _base = '/riot';
+  static const _base = 'api/riot';
 
   // ---------- Account -------------------------------------------------------
 

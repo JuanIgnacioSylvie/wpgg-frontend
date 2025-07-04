@@ -26,6 +26,7 @@ import 'package:wpgg/services/secure_storage_service.dart';
     LazySingleton(classType: BackendApiService),
     LazySingleton(classType: RiotApiService),
     LazySingleton(classType: SecureStorageService),
+    LazySingleton(classType: SnackbarService),
 // @stacked-service
   ],
   bottomsheets: [
