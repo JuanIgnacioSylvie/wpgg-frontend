@@ -9,6 +9,7 @@ import 'package:wpgg/services/env_service.dart';
 import 'package:wpgg/services/backend_api_service.dart';
 import 'package:wpgg/services/riot_api_service.dart';
 import 'package:wpgg/services/secure_storage_service.dart';
+import 'package:wpgg/services/ddragon_service.dart';
 // @stacked-import
 
 @StackedApp(
@@ -26,6 +27,7 @@ import 'package:wpgg/services/secure_storage_service.dart';
     LazySingleton(classType: BackendApiService),
     LazySingleton(classType: RiotApiService),
     LazySingleton(classType: SecureStorageService),
+    LazySingleton(classType: DDragonService),
     LazySingleton(classType: SnackbarService),
 // @stacked-service
   ],
