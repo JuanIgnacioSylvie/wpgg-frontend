@@ -6,6 +6,7 @@ import 'package:wpgg/services/env_service.dart';
 import 'package:wpgg/services/backend_api_service.dart';
 import 'package:wpgg/services/riot_api_service.dart';
 import 'package:wpgg/services/secure_storage_service.dart';
+import 'package:wpgg/services/ddragon_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -20,6 +21,7 @@ import 'test_helpers.mocks.dart';
     MockSpec<BackendApiService>(onMissingStub: OnMissingStub.returnDefault),
     MockSpec<RiotApiService>(onMissingStub: OnMissingStub.returnDefault),
     MockSpec<SecureStorageService>(onMissingStub: OnMissingStub.returnDefault),
+    MockSpec<DDragonService>(onMissingStub: OnMissingStub.returnDefault),
 // @stacked-mock-spec
   ],
 )
@@ -31,6 +33,7 @@ void registerServices() {
   getAndRegisterBackendApiService();
   getAndRegisterRiotApiService();
   getAndRegisterSecureStorageService();
+  getAndRegisterDDragonService();
 // @stacked-mock-register
 }
 
@@ -113,6 +116,13 @@ MockSecureStorageService getAndRegisterSecureStorageService() {
   _removeRegistrationIfExists<SecureStorageService>();
   final service = MockSecureStorageService();
   locator.registerSingleton<SecureStorageService>(service);
+  return service;
+}
+
+MockDDragonService getAndRegisterDDragonService() {
+  _removeRegistrationIfExists<DDragonService>();
+  final service = MockDDragonService();
+  locator.registerSingleton<DDragonService>(service);
   return service;
 }
 // @stacked-mock-create

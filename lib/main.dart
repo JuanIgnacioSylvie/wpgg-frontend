@@ -10,6 +10,7 @@ import 'package:wpgg/app/app.bottomsheets.dart';
 import 'package:wpgg/app/app.dialogs.dart';
 import 'package:wpgg/app/app.locator.dart';
 import 'package:wpgg/app/app.router.dart';
+import 'package:wpgg/services/ddragon_service.dart';
 import 'package:wpgg/ui/common/app_colors.dart';
 import 'package:wpgg/ui/common/widgets/snackbar_bar.dart';
 
@@ -32,6 +33,7 @@ Future<void> appStartup({AppEnvironment env = AppEnvironment.dev}) async {
 
   // ───── Inyección de dependencias ─────
   await setupLocator();
+  await locator<DDragonService>().init();
 
   // ───── UI global (dialogs / sheets / snackbars) ─────
   setupDialogUi();
