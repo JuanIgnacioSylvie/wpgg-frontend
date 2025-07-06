@@ -8,7 +8,7 @@ import 'env_service.dart';
 class BackendApiService {
   BackendApiService({
     http.Client? client,
-    this.timeoutTime = const Duration(seconds: 15),
+    this.timeoutTime = const Duration(seconds: 30),
   }) : _client = client ?? http.Client();
 
   final Duration timeoutTime;
