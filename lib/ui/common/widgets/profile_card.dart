@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:wpgg/app/app.locator.dart';
 import 'package:wpgg/models/profile_account.dto.dart';
+import 'package:wpgg/models/player_rank.dto.dart';
+import 'package:wpgg/models/stats.dto.dart';
 import 'package:wpgg/services/ddragon_service.dart';
 import 'wpgg_card.dart';
 
 class ProfileCard extends StatelessWidget {
   final ProfileAccountDTO profile;
-  const ProfileCard({super.key, required this.profile});
+  final PlayerRankDTO? ranks;
+  final StatsDTO? stats;
+  const ProfileCard({super.key, required this.profile, this.ranks, this.stats});
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +32,25 @@ class ProfileCard extends StatelessWidget {
               children: [
                 Text('Summoner Level: ${profile.summonerLevel ?? '-'}',
                     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                const SizedBox(height: 8),
-                Text('Profile ID: ${profile.id ?? '-'}',
-                    style: const TextStyle(fontSize: 14, color: Colors.grey)),
+                if (ranks?.rankedSoloQ != null) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    'SoloQ: ${ranks!.rankedSoloQ!.tier ?? ''} ${ranks!.rankedSoloQ!.rank ?? ''} (${ranks!.rankedSoloQ!.leaguePoints ?? 0} LP)',
+                    style: const TextStyle(fontSize: 14, color: Colors.grey),
+                  ),
+                ],
+                if (ranks?.rankedFlex != null) ...[
+                  const SizedBox(height: 4),
+                  Text(
+                    'Flex: ${ranks!.rankedFlex!.tier ?? ''} ${ranks!.rankedFlex!.rank ?? ''} (${ranks!.rankedFlex!.leaguePoints ?? 0} LP)',
+                    style: const TextStyle(fontSize: 14, color: Colors.grey),
+                  ),
+                ],
+                if (stats?.summary?.winRate != null) ...[
+                  const SizedBox(height: 8),
+                  Text('Winrate: ${stats!.summary!.winRate!.toStringAsFixed(1)}%',
+                      style: const TextStyle(fontSize: 14, color: Colors.grey)),
+                ],
               ],
             ),
           ),
