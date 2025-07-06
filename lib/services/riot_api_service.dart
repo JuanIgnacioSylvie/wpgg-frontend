@@ -2,6 +2,9 @@
 import 'package:wpgg/models/account.dto.dart';
 import 'package:wpgg/models/match_summary.dto.dart';
 import 'package:wpgg/models/profile_account.dto.dart';
+import 'package:wpgg/models/player_rank.dto.dart';
+import 'package:wpgg/models/stats.dto.dart';
+import 'package:wpgg/models/gameplay_recommendation.dto.dart';
 import '../app/app.locator.dart';
 import 'backend_api_service.dart';
 import 'secure_storage_service.dart';
@@ -91,5 +94,47 @@ class RiotApiService {
     return list
         .map((e) => MatchSummaryDTO.fromJson(e as Map<String, dynamic>))
         .toList();
+  }
+
+  // ---------- Stats --------------------------------------------------------
+
+  Future<StatsDTO> fetchStats(String puuid) async {
+    final cacheKey = 'stats_$puuid';
+
+    final cached = await _secure.readJson(cacheKey);
+    if (cached != null) {
+      return StatsDTO.fromJson(cached as Map<String, dynamic>);
+    }
+
+    final data = await _api.get('$_base/stats/$puuid') as Map<String, dynamic>;
+
+    await _secure.writeJson(cacheKey, data);
+    return StatsDTO.fromJson(data);
+  }
+
+  // ---------- Ranks --------------------------------------------------------
+
+  Future<PlayerRankDTO> fetchRanks(String puuid) async {
+    final cacheKey = 'ranks_$puuid';
+
+    final cached = await _secure.readJson(cacheKey);
+    if (cached != null) {
+      return PlayerRankDTO.fromJson(cached as Map<String, dynamic>);
+    }
+
+    final data = await _api.get('$_base/ranks/$puuid') as Map<String, dynamic>;
+
+    await _secure.writeJson(cacheKey, data);
+    return PlayerRankDTO.fromJson(data);
+  }
+
+  // ---------- Gemini Recommendation ---------------------------------------
+
+  Future<GameplayRecommendationDTO> fetchRecommendation(StatsDTO stats) async {
+    final data = await _api.post('api/gemini/recommend', payload: {
+      'stats': stats.toJson(),
+    }) as Map<String, dynamic>;
+
+    return GameplayRecommendationDTO.fromJson(data);
   }
 }

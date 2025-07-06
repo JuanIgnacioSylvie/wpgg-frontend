@@ -3,6 +3,7 @@ import 'package:stacked/stacked.dart';
 import 'package:wpgg/ui/common/widgets/loading_widget.dart';
 import 'package:wpgg/ui/common/widgets/profile_card.dart';
 import 'package:wpgg/ui/common/widgets/match_summary_card.dart';
+import 'package:wpgg/ui/common/widgets/recommendation_card.dart';
 
 import 'profile_viewmodel.dart';
 
@@ -29,14 +30,31 @@ class ProfileView extends StackedView<ProfileViewModel> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     if (viewModel.profile != null)
-                      ProfileCard(profile: viewModel.profile!),
+                      ProfileCard(
+                        profile: viewModel.profile!,
+                        ranks: viewModel.ranks,
+                        stats: viewModel.stats,
+                      ),
                     const SizedBox(height: 16),
-                    ListView.builder(
-                      itemCount: viewModel.matches.length,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) =>
-                          MatchSummaryCard(match: viewModel.matches[index]),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: viewModel.matches.length,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) =>
+                                MatchSummaryCard(match: viewModel.matches[index]),
+                          ),
+                        ),
+                        if (viewModel.recommendation != null)
+                          SizedBox(
+                            width: 250,
+                            child: RecommendationCard(
+                                recommendation: viewModel.recommendation!),
+                          ),
+                      ],
                     ),
                   ],
                 ),
