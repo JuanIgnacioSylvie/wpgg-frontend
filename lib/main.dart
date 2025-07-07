@@ -122,7 +122,7 @@ class MainApp extends StatelessWidget {
 
   Route<dynamic>? _generateRoute(RouteSettings settings) {
     final uri = Uri.parse(settings.name ?? '');
-    final match = RegExp(r'^/([^/]+)-([^/]+)/?$').firstMatch(uri.path);
+    final match = RegExp(r'^/profile/([^/]+)-([^/]+)/?$').firstMatch(uri.path);
     if (match != null) {
       return MaterialPageRoute(
         builder: (context) => const ProfileView(),

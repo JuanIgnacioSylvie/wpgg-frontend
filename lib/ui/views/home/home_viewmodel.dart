@@ -21,7 +21,7 @@ class HomeViewModel extends BaseViewModel {
         tagController.text,
       );
       await _secure.write('last_puuid', account.puuid);
-      await _nav.navigateTo('/${gameController.text}-${tagController.text}');
+      await _nav.navigateTo('/profile/${gameController.text}-${tagController.text}');
     } catch (e) {
       debugPrint('$e');
     } finally {
