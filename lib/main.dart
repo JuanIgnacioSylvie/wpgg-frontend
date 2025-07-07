@@ -13,6 +13,7 @@ import 'package:wpgg/app/app.router.dart';
 import 'package:wpgg/services/ddragon_service.dart';
 import 'package:wpgg/ui/common/app_colors.dart';
 import 'package:wpgg/ui/common/widgets/snackbar_bar.dart';
+import 'package:wpgg/ui/views/profile/profile_view.dart';
 
 /// Entornos soportados
 enum AppEnvironment { dev, production }
@@ -93,7 +94,7 @@ class MainApp extends StatelessWidget {
         // ───── Navegación ─────
         navigatorKey: StackedService.navigatorKey,
         navigatorObservers: [StackedService.routeObserver],
-        onGenerateRoute: _appRouter.onGenerateRoute,
+        onGenerateRoute: _generateRoute,
 
         // ───── Scroll (mejor UX en web) ─────
         scrollBehavior: kIsWeb
@@ -118,4 +119,16 @@ class MainApp extends StatelessWidget {
       ),
     );
   }
+
+  Route<dynamic>? _generateRoute(RouteSettings settings) {
+  final uri = Uri.parse(settings.name ?? '');
+  final match = RegExp(r'^/([^/]+)-([^/]+)/?\$').firstMatch(uri.path);
+  if (match != null) {
+    return MaterialPageRoute(
+      builder: (context) => const ProfileView(),
+      settings: settings,
+    );
+  }
+  return MainApp._appRouter.onGenerateRoute(settings);
+}
 }
