@@ -17,6 +17,7 @@ import '../services/ddragon_service.dart';
 import '../services/env_service.dart';
 import '../services/riot_api_service.dart';
 import '../services/secure_storage_service.dart';
+import '../services/theme_service.dart';
 
 final locator = StackedLocator.instance;
 
@@ -37,5 +38,6 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => RiotApiService());
   locator.registerLazySingleton(() => SecureStorageService());
   locator.registerLazySingleton(() => DDragonService());
+  locator.registerLazySingleton(() => ThemeService());
   locator.registerLazySingleton(() => SnackbarService());
 }
