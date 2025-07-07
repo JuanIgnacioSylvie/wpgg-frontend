@@ -13,10 +13,10 @@ import 'package:stacked_services/src/snackbar/snackbar_service.dart';
 import 'package:stacked_shared/stacked_shared.dart';
 
 import '../services/backend_api_service.dart';
+import '../services/ddragon_service.dart';
 import '../services/env_service.dart';
 import '../services/riot_api_service.dart';
 import '../services/secure_storage_service.dart';
-import '../services/ddragon_service.dart';
 
 final locator = StackedLocator.instance;
 

@@ -6,7 +6,8 @@ class SummaryStatsDTO {
   int? losses;
   double? winRate;
 
-  factory SummaryStatsDTO.fromJson(Map<String, dynamic> json) => SummaryStatsDTO(
+  factory SummaryStatsDTO.fromJson(Map<String, dynamic> json) =>
+      SummaryStatsDTO(
         totalGames: (json['totalGames'] as num?)?.toInt(),
         wins: (json['wins'] as num?)?.toInt(),
         losses: (json['losses'] as num?)?.toInt(),

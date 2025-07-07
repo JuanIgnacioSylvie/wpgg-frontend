@@ -1,12 +1,14 @@
 class ChampionStatsDTO {
-  ChampionStatsDTO({this.championName, this.gamesPlayed, this.wins, this.winRate});
+  ChampionStatsDTO(
+      {this.championName, this.gamesPlayed, this.wins, this.winRate});
 
   String? championName;
   int? gamesPlayed;
   int? wins;
   double? winRate;
 
-  factory ChampionStatsDTO.fromJson(Map<String, dynamic> json) => ChampionStatsDTO(
+  factory ChampionStatsDTO.fromJson(Map<String, dynamic> json) =>
+      ChampionStatsDTO(
         championName: json['championName'] as String?,
         gamesPlayed: (json['gamesPlayed'] as num?)?.toInt(),
         wins: (json['wins'] as num?)?.toInt(),

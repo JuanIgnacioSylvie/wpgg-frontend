@@ -13,7 +13,8 @@ class RecommendationCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Recommended Role: ${recommendation.role ?? '-'}',
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              style:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
           Text('Champion: ${recommendation.champion ?? '-'}',
               style: const TextStyle(fontSize: 14)),

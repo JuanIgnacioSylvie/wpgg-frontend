@@ -59,7 +59,8 @@ class _MatchSummaryCardState extends State<MatchSummaryCard> {
             ],
           ),
           const SizedBox(height: 8),
-          if (participant != null) _buildParticipantSummary(participant, ddragon),
+          if (participant != null)
+            _buildParticipantSummary(participant, ddragon),
           if (_expanded) ...[
             const Divider(),
             Column(
@@ -83,8 +84,7 @@ class _MatchSummaryCardState extends State<MatchSummaryCard> {
     );
   }
 
-  Widget _buildParticipantSummary(
-      ParticipantDTO p, DDragonService ddragon) {
+  Widget _buildParticipantSummary(ParticipantDTO p, DDragonService ddragon) {
     final build = p.buildDto;
     final items = [
       build?.item0,
@@ -117,8 +117,7 @@ class _MatchSummaryCardState extends State<MatchSummaryCard> {
     );
   }
 
-  Widget _buildParticipantDetail(
-      ParticipantDTO p, DDragonService ddragon) {
+  Widget _buildParticipantDetail(ParticipantDTO p, DDragonService ddragon) {
     final items = [
       p.buildDto?.item0,
       p.buildDto?.item1,
@@ -146,8 +145,7 @@ class _MatchSummaryCardState extends State<MatchSummaryCard> {
                   )
                 : null,
             title: Text(p.accountDto?.gameName ?? '-'),
-            subtitle:
-                Text('K/D/A: ${p.kills}/${p.deaths}/${p.assists}'),
+            subtitle: Text('K/D/A: ${p.kills}/${p.deaths}/${p.assists}'),
             trailing: Text(p.win == true ? 'Win' : 'Loss'),
           ),
           if (items.any((id) => id != null && id! > 0))

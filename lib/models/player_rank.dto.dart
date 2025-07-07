@@ -9,7 +9,8 @@ class PlayerRankDTO {
   factory PlayerRankDTO.fromJson(Map<String, dynamic> json) => PlayerRankDTO(
         rankedSoloQ: json['rankedSoloQ'] == null
             ? null
-            : RankEntryDTO.fromJson(json['rankedSoloQ'] as Map<String, dynamic>),
+            : RankEntryDTO.fromJson(
+                json['rankedSoloQ'] as Map<String, dynamic>),
         rankedFlex: json['rankedFlex'] == null
             ? null
             : RankEntryDTO.fromJson(json['rankedFlex'] as Map<String, dynamic>),

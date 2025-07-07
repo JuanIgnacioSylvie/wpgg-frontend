@@ -1,5 +1,6 @@
 class RankEntryDTO {
-  RankEntryDTO({this.tier, this.rank, this.leaguePoints, this.wins, this.losses});
+  RankEntryDTO(
+      {this.tier, this.rank, this.leaguePoints, this.wins, this.losses});
 
   String? tier;
   String? rank;

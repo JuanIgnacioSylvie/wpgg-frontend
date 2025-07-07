@@ -7,7 +7,8 @@ class DDragonService {
 
   final http.Client _client;
   String? _version;
-  static const String _versionUrl = 'https://ddragon.leagueoflegends.com/api/versions.json';
+  static const String _versionUrl =
+      'https://ddragon.leagueoflegends.com/api/versions.json';
 
   Future<void> init() async {
     if (_version != null) return;
