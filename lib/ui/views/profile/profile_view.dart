@@ -15,13 +15,11 @@ class ProfileView extends StackedView<ProfileViewModel> {
       BuildContext context, ProfileViewModel viewModel, Widget? child) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        iconTheme: const IconThemeData(color: Colors.black),
         elevation: 1,
-        title: const Text('Profile', style: TextStyle(color: Colors.black)),
+        title: const Text('Profile'),
       ),
       body: Container(
-        color: Colors.white,
+        color: Theme.of(context).scaffoldBackgroundColor,
         child: viewModel.isBusy
             ? const LoadingWidget()
             : SingleChildScrollView(

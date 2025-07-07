@@ -11,6 +11,7 @@ import 'package:wpgg/app/app.dialogs.dart';
 import 'package:wpgg/app/app.locator.dart';
 import 'package:wpgg/app/app.router.dart';
 import 'package:wpgg/services/ddragon_service.dart';
+import 'package:wpgg/services/theme_service.dart';
 import 'package:wpgg/ui/common/app_colors.dart';
 import 'package:wpgg/ui/common/widgets/snackbar_bar.dart';
 import 'package:wpgg/ui/views/profile/profile_view.dart';
@@ -84,12 +85,15 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery(
-      data: MediaQuery.of(context)
-          .copyWith(textScaler: const TextScaler.linear(1.0)),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        initialRoute: Routes.startupView,
+    final themeService = locator<ThemeService>();
+    return AnimatedBuilder(
+      animation: themeService,
+      builder: (context, _) => MediaQuery(
+        data: MediaQuery.of(context)
+            .copyWith(textScaler: const TextScaler.linear(1.0)),
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          initialRoute: Routes.startupView,
 
         // ───── Navegación ─────
         navigatorKey: StackedService.navigatorKey,
@@ -115,7 +119,22 @@ class MainApp extends StatelessWidget {
         //     brightness: Brightness.light,
         //   ),
         //   useMaterial3: true,
-        // ),
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: kcPrimaryColor,
+              brightness: Brightness.light,
+            ),
+            useMaterial3: true,
+          ),
+          darkTheme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: kcPrimaryColorDark,
+              brightness: Brightness.dark,
+            ),
+            useMaterial3: true,
+          ),
+          themeMode: themeService.themeMode,
+        ),
       ),
     );
   }
