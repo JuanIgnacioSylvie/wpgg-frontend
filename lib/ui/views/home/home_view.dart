@@ -16,31 +16,13 @@ class HomeView extends StackedView<HomeViewModel> {
     final themeService = locator<ThemeService>();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (themeService.themeMode == ThemeMode.light && !themeService.promptShown) {
-        _scaffoldKey.currentState?.openEndDrawer();
+        _showThemePanel(context, themeService);
         themeService.markPromptShown();
       }
     });
 
     return Scaffold(
       key: _scaffoldKey,
-      endDrawer: Drawer(
-        width: 250,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset('lucian-dark-mode.png', width: 180),
-            const SizedBox(height: 16),
-            const Text('¿Preferís el dark mode?'),
-            Switch(
-              value: themeService.themeMode == ThemeMode.dark,
-              onChanged: (val) {
-                themeService.toggleTheme();
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        ),
-      ),
       body: Container(
         decoration: BoxDecoration(
             color: Theme.of(context).scaffoldBackgroundColor),
@@ -110,6 +92,53 @@ class HomeView extends StackedView<HomeViewModel> {
           ),
         ),
       ),
+    );
+  }
+
+  void _showThemePanel(BuildContext context, ThemeService themeService) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: 'theme-panel',
+      transitionDuration: const Duration(milliseconds: 300),
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return Align(
+          alignment: Alignment.centerLeft,
+          child: Material(
+            borderRadius: BorderRadius.circular(8),
+            child: SizedBox(
+              width: 250,
+              child: _themePanelContent(context, themeService),
+            ),
+          ),
+        );
+      },
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        final offsetAnimation = Tween<Offset>(
+          begin: const Offset(-1, 0),
+          end: Offset.zero,
+        ).animate(animation);
+        return SlideTransition(position: offsetAnimation, child: child);
+      },
+    );
+  }
+
+  Widget _themePanelContent(BuildContext context, ThemeService themeService) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.asset('lucian-dark-mode.png', width: 180),
+        const SizedBox(height: 16),
+        const Text('¿Preferís el dark mode?'),
+        Switch(
+          value: themeService.themeMode == ThemeMode.dark,
+          onChanged: (val) {
+            themeService.toggleTheme();
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
     );
   }
 
