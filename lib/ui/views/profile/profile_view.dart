@@ -43,7 +43,9 @@ class ProfileView extends StackedView<ProfileViewModel> {
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) => MatchSummaryCard(
-                                match: viewModel.matches[index]),
+                              match: viewModel.matches[index],
+                              playerPuuid: viewModel.profile?.puuid,
+                            ),
                           ),
                         ),
                         if (viewModel.recommendation != null)

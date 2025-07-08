@@ -7,7 +7,8 @@ import 'wpgg_card.dart';
 
 class MatchSummaryCard extends StatefulWidget {
   final MatchSummaryDTO match;
-  const MatchSummaryCard({super.key, required this.match});
+  final String? playerPuuid;
+  const MatchSummaryCard({super.key, required this.match, this.playerPuuid});
 
   @override
   State<MatchSummaryCard> createState() => _MatchSummaryCardState();
@@ -20,9 +21,16 @@ class _MatchSummaryCardState extends State<MatchSummaryCard> {
 
   @override
   Widget build(BuildContext context) {
-    final participant = widget.match.participants?.isNotEmpty == true
-        ? widget.match.participants!.first
-        : null;
+    ParticipantDTO? participant;
+    if (widget.match.participants?.isNotEmpty == true) {
+      if (widget.playerPuuid != null) {
+        participant = widget.match.participants!
+            .firstWhere((p) => p.accountDto?.puuid == widget.playerPuuid,
+                orElse: () => widget.match.participants!.first);
+      } else {
+        participant = widget.match.participants!.first;
+      }
+    }
     final ddragon = locator<DDragonService>();
 
     return WpggCard(
@@ -49,8 +57,19 @@ class _MatchSummaryCardState extends State<MatchSummaryCard> {
                         style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 4),
-                    Text('Duration: ${(widget.match.gameDuration ?? 0) ~/ 60}m',
-                        style: const TextStyle(color: Colors.grey)),
+                    Row(
+                      children: [
+                        Text(
+                          'Dur: ${(widget.match.gameDuration ?? 0) ~/ 60}m',
+                          style: const TextStyle(color: Colors.grey, fontSize: 12),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          'Hace: N/A',
+                          style: const TextStyle(color: Colors.grey, fontSize: 12),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -85,48 +104,23 @@ class _MatchSummaryCardState extends State<MatchSummaryCard> {
   }
 
   Widget _buildParticipantSummary(ParticipantDTO p, DDragonService ddragon) {
-    final build = p.buildDto;
-    final items = [
-      build?.item0,
-      build?.item1,
-      build?.item2,
-      build?.item3,
-      build?.item4,
-      build?.item5,
-      build?.item6,
-    ];
+    final kda = p.deaths == 0
+        ? ((p.kills ?? 0) + (p.assists ?? 0)).toDouble()
+        : ((p.kills ?? 0) + (p.assists ?? 0)) / (p.deaths ?? 1);
 
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('K/D/A: ${p.kills}/${p.deaths}/${p.assists}'),
-        const SizedBox(width: 8),
-        Wrap(
-          spacing: 4,
-          children: items
-              .where((id) => id != null && id! > 0)
-              .map((id) => Image.network(
-                    ddragon.itemIcon(id!),
-                    width: 24,
-                    height: 24,
-                    errorBuilder: (c, e, s) =>
-                        const SizedBox(width: 24, height: 24),
-                  ))
-              .toList(),
+        Text(
+          'K/D/A: ${p.kills}/${p.deaths}/${p.assists} (KDA: ${kda.toStringAsFixed(1)})',
         ),
+        const SizedBox(height: 4),
+        _buildBuildSummary(p, ddragon),
       ],
     );
   }
 
   Widget _buildParticipantDetail(ParticipantDTO p, DDragonService ddragon) {
-    final items = [
-      p.buildDto?.item0,
-      p.buildDto?.item1,
-      p.buildDto?.item2,
-      p.buildDto?.item3,
-      p.buildDto?.item4,
-      p.buildDto?.item5,
-      p.buildDto?.item6,
-    ];
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
@@ -148,23 +142,81 @@ class _MatchSummaryCardState extends State<MatchSummaryCard> {
             subtitle: Text('K/D/A: ${p.kills}/${p.deaths}/${p.assists}'),
             trailing: Text(p.win == true ? 'Win' : 'Loss'),
           ),
-          if (items.any((id) => id != null && id! > 0))
-            Padding(
-              padding: const EdgeInsets.only(left: 72),
-              child: Wrap(
-                spacing: 4,
-                children: items
-                    .where((id) => id != null && id! > 0)
-                    .map((id) => Image.network(
-                          ddragon.itemIcon(id!),
-                          width: 24,
-                          height: 24,
+          Padding(
+            padding: const EdgeInsets.only(left: 72),
+            child: _buildBuildSummary(p, ddragon),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBuildSummary(ParticipantDTO p, DDragonService ddragon) {
+    final spells = [
+      ddragon.summonerSpellIcon(p.summonerSpellsDto?.summoner1Id),
+      ddragon.summonerSpellIcon(p.summonerSpellsDto?.summoner2Id),
+    ]..removeWhere((e) => e == null);
+
+    final items = [
+      p.buildDto?.item0,
+      p.buildDto?.item1,
+      p.buildDto?.item2,
+      p.buildDto?.item3,
+      p.buildDto?.item4,
+      p.buildDto?.item5,
+      p.buildDto?.item6,
+    ];
+
+    return Container(
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey.shade300),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: spells
+                  .map((url) => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 2),
+                        child: Image.network(
+                          url!,
+                          width: 20,
+                          height: 20,
                           errorBuilder: (c, e, s) =>
-                              const SizedBox(width: 24, height: 24),
-                        ))
-                    .toList(),
+                              const SizedBox(width: 20, height: 20),
+                        ),
+                      ))
+                  .toList(),
+            ),
+          ),
+          Expanded(
+            child: Center(
+              child: Text(
+                'Runas N/A',
+                style: const TextStyle(fontSize: 12, color: Colors.grey),
               ),
             ),
+          ),
+          Expanded(
+            child: Wrap(
+              spacing: 2,
+              alignment: WrapAlignment.center,
+              children: items
+                  .where((id) => id != null && id! > 0)
+                  .map((id) => Image.network(
+                        ddragon.itemIcon(id!),
+                        width: 20,
+                        height: 20,
+                        errorBuilder: (c, e, s) =>
+                            const SizedBox(width: 20, height: 20),
+                      ))
+                  .toList(),
+            ),
+          ),
         ],
       ),
     );
