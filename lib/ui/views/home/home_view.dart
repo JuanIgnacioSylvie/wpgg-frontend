@@ -15,7 +15,8 @@ class HomeView extends StackedView<HomeViewModel> {
   Widget builder(BuildContext context, HomeViewModel viewModel, Widget? child) {
     final themeService = locator<ThemeService>();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (themeService.themeMode == ThemeMode.light && !themeService.promptShown) {
+      if (themeService.themeMode == ThemeMode.light &&
+          !themeService.promptShown) {
         _showThemePanel(context, themeService);
         themeService.markPromptShown();
       }
@@ -24,8 +25,8 @@ class HomeView extends StackedView<HomeViewModel> {
     return Scaffold(
       key: _scaffoldKey,
       body: Container(
-        decoration: BoxDecoration(
-            color: Theme.of(context).scaffoldBackgroundColor),
+        decoration:
+            BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor),
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,

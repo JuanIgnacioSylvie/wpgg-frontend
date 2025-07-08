@@ -95,30 +95,30 @@ class MainApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           initialRoute: Routes.startupView,
 
-        // ───── Navegación ─────
-        navigatorKey: StackedService.navigatorKey,
-        navigatorObservers: [StackedService.routeObserver],
-        onGenerateRoute: _generateRoute,
+          // ───── Navegación ─────
+          navigatorKey: StackedService.navigatorKey,
+          navigatorObservers: [StackedService.routeObserver],
+          onGenerateRoute: _generateRoute,
 
-        // ───── Scroll (mejor UX en web) ─────
-        scrollBehavior: kIsWeb
-            ? const MaterialScrollBehavior().copyWith(
-                dragDevices: {
-                  PointerDeviceKind.mouse,
-                  PointerDeviceKind.touch,
-                  PointerDeviceKind.trackpad,
-                },
-              )
-            : null,
+          // ───── Scroll (mejor UX en web) ─────
+          scrollBehavior: kIsWeb
+              ? const MaterialScrollBehavior().copyWith(
+                  dragDevices: {
+                    PointerDeviceKind.mouse,
+                    PointerDeviceKind.touch,
+                    PointerDeviceKind.trackpad,
+                  },
+                )
+              : null,
 
-        // ───── Tema global ─────
-        // theme: ThemeData(
-        //   fontFamily: 'Brother1816',             // reemplaza si usás otra
-        //   colorScheme: ColorScheme.fromSeed(
-        //     seedColor: kcPrimaryColor,           // tu color principal
-        //     brightness: Brightness.light,
-        //   ),
-        //   useMaterial3: true,
+          // ───── Tema global ─────
+          // theme: ThemeData(
+          //   fontFamily: 'Brother1816',             // reemplaza si usás otra
+          //   colorScheme: ColorScheme.fromSeed(
+          //     seedColor: kcPrimaryColor,           // tu color principal
+          //     brightness: Brightness.light,
+          //   ),
+          //   useMaterial3: true,
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(
               seedColor: kcPrimaryColor,

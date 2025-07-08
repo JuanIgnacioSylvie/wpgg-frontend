@@ -38,6 +38,6 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => RiotApiService());
   locator.registerLazySingleton(() => SecureStorageService());
   locator.registerLazySingleton(() => DDragonService());
-  locator.registerLazySingleton(() => ThemeService());
   locator.registerLazySingleton(() => SnackbarService());
+  locator.registerLazySingleton(() => ThemeService());
 }

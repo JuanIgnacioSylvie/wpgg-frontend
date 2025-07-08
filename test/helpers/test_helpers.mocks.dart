@@ -21,6 +21,7 @@ import 'package:wpgg/services/ddragon_service.dart' as _i17;
 import 'package:wpgg/services/env_service.dart' as _i12;
 import 'package:wpgg/services/riot_api_service.dart' as _i14;
 import 'package:wpgg/services/secure_storage_service.dart' as _i16;
+import 'package:wpgg/services/theme_service.dart' as _i18;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -1201,3 +1202,8 @@ class MockDDragonService extends _i1.Mock implements _i17.DDragonService {
         returnValueForMissingStub: null,
       );
 }
+
+/// A class which mocks [ThemeService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockThemeService extends _i1.Mock implements _i18.ThemeService {}

@@ -24,9 +24,9 @@ class _MatchSummaryCardState extends State<MatchSummaryCard> {
     ParticipantDTO? participant;
     if (widget.match.participants?.isNotEmpty == true) {
       if (widget.playerPuuid != null) {
-        participant = widget.match.participants!
-            .firstWhere((p) => p.accountDto?.puuid == widget.playerPuuid,
-                orElse: () => widget.match.participants!.first);
+        participant = widget.match.participants!.firstWhere(
+            (p) => p.accountDto?.puuid == widget.playerPuuid,
+            orElse: () => widget.match.participants!.first);
       } else {
         participant = widget.match.participants!.first;
       }
@@ -61,12 +61,14 @@ class _MatchSummaryCardState extends State<MatchSummaryCard> {
                       children: [
                         Text(
                           'Dur: ${(widget.match.gameDuration ?? 0) ~/ 60}m',
-                          style: const TextStyle(color: Colors.grey, fontSize: 12),
+                          style:
+                              const TextStyle(color: Colors.grey, fontSize: 12),
                         ),
                         const SizedBox(width: 8),
                         Text(
                           'Hace: N/A',
-                          style: const TextStyle(color: Colors.grey, fontSize: 12),
+                          style:
+                              const TextStyle(color: Colors.grey, fontSize: 12),
                         ),
                       ],
                     ),
@@ -121,7 +123,6 @@ class _MatchSummaryCardState extends State<MatchSummaryCard> {
   }
 
   Widget _buildParticipantDetail(ParticipantDTO p, DDragonService ddragon) {
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Column(
