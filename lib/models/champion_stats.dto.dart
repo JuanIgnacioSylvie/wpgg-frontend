@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'champion_stats.dto.g.dart';
+
+@JsonSerializable()
 class ChampionStatsDTO {
   ChampionStatsDTO(
       {this.championName, this.gamesPlayed, this.wins, this.winRate});
@@ -8,17 +13,7 @@ class ChampionStatsDTO {
   double? winRate;
 
   factory ChampionStatsDTO.fromJson(Map<String, dynamic> json) =>
-      ChampionStatsDTO(
-        championName: json['championName'] as String?,
-        gamesPlayed: (json['gamesPlayed'] as num?)?.toInt(),
-        wins: (json['wins'] as num?)?.toInt(),
-        winRate: (json['winRate'] as num?)?.toDouble(),
-      );
+      _$ChampionStatsDTOFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-        'championName': championName,
-        'gamesPlayed': gamesPlayed,
-        'wins': wins,
-        'winRate': winRate,
-      };
+  Map<String, dynamic> toJson() => _$ChampionStatsDTOToJson(this);
 }

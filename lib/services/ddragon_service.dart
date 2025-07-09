@@ -1,17 +1,21 @@
 // lib/services/ddragon_service.dart
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../models/rune.dto.dart';
 
 class DDragonService {
   DDragonService({http.Client? client}) : _client = client ?? http.Client();
 
   final http.Client _client;
   String? _version;
-  final Map<int, String> _perkIconPath = {};
+  final Map<int, RuneDTO> _runeMap = {};
   static const Map<int, String> _shardIcon = {
-    5001: 'perk-images/StatMods/StatModsHealthScaling.png',
-    5008: 'perk-images/StatMods/StatModsAdaptiveForce.png',
-    5005: 'perk-images/StatMods/StatModsAttackSpeedAdaptive.png',
+    5001: 'perk-images/StatMods/StatModsHealthScalingIcon.png',
+    5002: 'perk-images/StatMods/StatModsArmorIcon.png',
+    5003: 'perk-images/StatMods/StatModsMagicResIcon.png',
+    5005: 'perk-images/StatMods/StatModsAttackSpeedIcon.png',
+    5007: 'perk-images/StatMods/StatModsCDRScalingIcon.png',
+    5008: 'perk-images/StatMods/StatModsAdaptiveForceIcon.png',
   };
   static const String _versionUrl =
       'https://ddragon.leagueoflegends.com/api/versions.json';
@@ -42,7 +46,8 @@ class DDragonService {
           for (final rune in runes) {
             final id = rune['id'] as int;
             final icon = rune['icon'] as String;
-            _perkIconPath[id] = icon;
+            final name = rune['name'] as String? ?? '';
+            _runeMap[id] = RuneDTO(id: id, name: name, icon: icon);
           }
         }
       }
@@ -79,10 +84,12 @@ class DDragonService {
   }
 
   String? runeIcon(int id) {
-    final iconPath = _perkIconPath[id] ?? _shardIcon[id];
+    final iconPath = _runeMap[id]?.icon ?? _shardIcon[id];
     if (iconPath == null) return null;
     return '$_baseImgUrl/$iconPath';
   }
+
+  String? runeName(int id) => _runeMap[id]?.name;
 
   void dispose() => _client.close();
 }

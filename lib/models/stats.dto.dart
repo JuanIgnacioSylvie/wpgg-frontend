@@ -1,7 +1,11 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'champion_stats.dto.dart';
 import 'role_stats.dto.dart';
 import 'summary_stats.dto.dart';
 
+part 'stats.dto.g.dart';
+
+@JsonSerializable(explicitToJson: true)
 class StatsDTO {
   StatsDTO({this.summary, this.champions, this.roles});
 
@@ -9,21 +13,8 @@ class StatsDTO {
   List<ChampionStatsDTO>? champions;
   List<RoleStatsDTO>? roles;
 
-  factory StatsDTO.fromJson(Map<String, dynamic> json) => StatsDTO(
-        summary: json['summary'] == null
-            ? null
-            : SummaryStatsDTO.fromJson(json['summary'] as Map<String, dynamic>),
-        champions: (json['champions'] as List<dynamic>?)
-            ?.map((e) => ChampionStatsDTO.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        roles: (json['roles'] as List<dynamic>?)
-            ?.map((e) => RoleStatsDTO.fromJson(e as Map<String, dynamic>))
-            .toList(),
-      );
+  factory StatsDTO.fromJson(Map<String, dynamic> json) =>
+      _$StatsDTOFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-        'summary': summary?.toJson(),
-        'champions': champions?.map((e) => e.toJson()).toList(),
-        'roles': roles?.map((e) => e.toJson()).toList(),
-      };
+  Map<String, dynamic> toJson() => _$StatsDTOToJson(this);
 }

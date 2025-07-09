@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'rank_entry.dto.g.dart';
+
+@JsonSerializable()
 class RankEntryDTO {
   RankEntryDTO(
       {this.tier, this.rank, this.leaguePoints, this.wins, this.losses});
@@ -8,19 +13,8 @@ class RankEntryDTO {
   int? wins;
   int? losses;
 
-  factory RankEntryDTO.fromJson(Map<String, dynamic> json) => RankEntryDTO(
-        tier: json['tier'] as String?,
-        rank: json['rank'] as String?,
-        leaguePoints: (json['leaguePoints'] as num?)?.toInt(),
-        wins: (json['wins'] as num?)?.toInt(),
-        losses: (json['losses'] as num?)?.toInt(),
-      );
+  factory RankEntryDTO.fromJson(Map<String, dynamic> json) =>
+      _$RankEntryDTOFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-        'tier': tier,
-        'rank': rank,
-        'leaguePoints': leaguePoints,
-        'wins': wins,
-        'losses': losses,
-      };
+  Map<String, dynamic> toJson() => _$RankEntryDTOToJson(this);
 }
