@@ -1194,26 +1194,22 @@ class MockDDragonService extends _i1.Mock implements _i17.DDragonService {
       ) as String);
 
   @override
-  String runeIcon(int? id) => (super.noSuchMethod(
+  String? runeIcon(int? id) => (super.noSuchMethod(
         Invocation.method(
           #runeIcon,
           [id],
         ),
-        returnValue: _i8.dummyValue<String>(
-          this,
-          Invocation.method(
-            #runeIcon,
-            [id],
-          ),
+        returnValueForMissingStub: null,
+      ) as String?);
+
+  @override
+  String? runeName(int? id) => (super.noSuchMethod(
+        Invocation.method(
+          #runeName,
+          [id],
         ),
-        returnValueForMissingStub: _i8.dummyValue<String>(
-          this,
-          Invocation.method(
-            #runeIcon,
-            [id],
-          ),
-        ),
-      ) as String);
+        returnValueForMissingStub: null,
+      ) as String?);
 
   @override
   void dispose() => super.noSuchMethod(

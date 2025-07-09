@@ -2,6 +2,10 @@
 
 part of 'role_stats.dto.dart';
 
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
 RoleStatsDTO _$RoleStatsDTOFromJson(Map<String, dynamic> json) => RoleStatsDTO(
       role: json['role'] as String?,
       gamesPlayed: (json['gamesPlayed'] as num?)?.toInt(),

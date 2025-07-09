@@ -2,6 +2,10 @@
 
 part of 'rank_entry.dto.dart';
 
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
 RankEntryDTO _$RankEntryDTOFromJson(Map<String, dynamic> json) => RankEntryDTO(
       tier: json['tier'] as String?,
       rank: json['rank'] as String?,

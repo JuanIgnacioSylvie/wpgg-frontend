@@ -2,6 +2,10 @@
 
 part of 'champion_stats.dto.dart';
 
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
 ChampionStatsDTO _$ChampionStatsDTOFromJson(Map<String, dynamic> json) =>
     ChampionStatsDTO(
       championName: json['championName'] as String?,

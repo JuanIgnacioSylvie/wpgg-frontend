@@ -2,6 +2,10 @@
 
 part of 'gameplay_recommendation.dto.dart';
 
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
 GameplayRecommendationDTO _$GameplayRecommendationDTOFromJson(
         Map<String, dynamic> json) =>
     GameplayRecommendationDTO(

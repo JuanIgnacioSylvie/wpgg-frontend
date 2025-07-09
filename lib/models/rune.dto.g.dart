@@ -2,8 +2,12 @@
 
 part of 'rune.dto.dart';
 
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
 RuneDTO _$RuneDTOFromJson(Map<String, dynamic> json) => RuneDTO(
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
       name: json['name'] as String,
       icon: json['icon'] as String,
     );

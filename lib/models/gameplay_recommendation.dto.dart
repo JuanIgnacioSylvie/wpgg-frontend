@@ -13,6 +13,5 @@ class GameplayRecommendationDTO {
   factory GameplayRecommendationDTO.fromJson(Map<String, dynamic> json) =>
       _$GameplayRecommendationDTOFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$GameplayRecommendationDTOToJson(this);
+  Map<String, dynamic> toJson() => _$GameplayRecommendationDTOToJson(this);
 }

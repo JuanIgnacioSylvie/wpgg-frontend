@@ -2,7 +2,12 @@
 
 part of 'player_rank.dto.dart';
 
-PlayerRankDTO _$PlayerRankDTOFromJson(Map<String, dynamic> json) => PlayerRankDTO(
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+PlayerRankDTO _$PlayerRankDTOFromJson(Map<String, dynamic> json) =>
+    PlayerRankDTO(
       rankedSoloQ: json['rankedSoloQ'] == null
           ? null
           : RankEntryDTO.fromJson(json['rankedSoloQ'] as Map<String, dynamic>),

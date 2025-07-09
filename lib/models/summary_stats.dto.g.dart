@@ -2,6 +2,10 @@
 
 part of 'summary_stats.dto.dart';
 
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
 SummaryStatsDTO _$SummaryStatsDTOFromJson(Map<String, dynamic> json) =>
     SummaryStatsDTO(
       totalGames: (json['totalGames'] as num?)?.toInt(),

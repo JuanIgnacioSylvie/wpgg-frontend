@@ -2,6 +2,10 @@
 
 part of 'stats.dto.dart';
 
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
 StatsDTO _$StatsDTOFromJson(Map<String, dynamic> json) => StatsDTO(
       summary: json['summary'] == null
           ? null
