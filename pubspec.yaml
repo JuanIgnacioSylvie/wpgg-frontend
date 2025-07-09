@@ -15,6 +15,7 @@ dependencies:
   json_annotation: ^4.9.0
   stacked: ^3.4.0
   stacked_services: ^1.1.0
+  animated_text_kit: ^4.2.2
 
 dev_dependencies:
   build_runner: ^2.4.5
@@ -32,5 +33,4 @@ flutter:
   # Incluye **todo** lo que esté dentro de assets/
   assets:
     - env    
-    - assets/
-    - lib/models/runesReforged.json
+    - assets/    - lib/models/runesReforged.json

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:stacked/stacked.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:wpgg/ui/common/ui_helpers.dart';
 
 import 'startup_viewmodel.dart';
@@ -26,7 +27,20 @@ class StartupView extends StackedView<StartupViewModel> {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Loading ...', style: TextStyle(fontSize: 16)),
+                SizedBox(
+                  height: 20,
+                  child: AnimatedTextKit(
+                    repeatForever: true,
+                    pause: const Duration(milliseconds: 300),
+                    animatedTexts: [
+                      TypewriterAnimatedText(
+                        'Cargando... ',
+                        speed: const Duration(milliseconds: 100),
+                        textStyle: const TextStyle(fontSize: 16),
+                      ),
+                    ],
+                  ),
+                ),
                 horizontalSpaceSmall,
                 SizedBox(
                   width: 16,
