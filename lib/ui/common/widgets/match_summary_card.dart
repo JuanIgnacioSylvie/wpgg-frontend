@@ -197,7 +197,11 @@ class _MatchSummaryCardState extends State<MatchSummaryCard> {
           Expanded(
             child: Center(
               child: Text(
-                'Runas N/A',
+                p.runesDto != null
+                    ? 'Runas: '
+                        '${p.runesDto!.styles?[0].selections?[0].perk ?? '-'} / '
+                        '${p.runesDto!.styles?.length > 1 ? p.runesDto!.styles?[1].selections?[0].perk : '-'}'
+                    : 'Runas N/A',
                 style: const TextStyle(fontSize: 12, color: Colors.grey),
               ),
             ),
