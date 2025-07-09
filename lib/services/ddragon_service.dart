@@ -32,6 +32,8 @@ class DDragonService {
   String profileIcon(int id) => "${_baseUrl}/profileicon/${id}.png";
   String itemIcon(int id) => "${_baseUrl}/item/${id}.png";
 
+  String runeIcon(int id) => "${_baseUrl}/perk-images/${id}.png";
+
   static const Map<int, String> _spellMap = {
     21: 'SummonerBarrier',
     1: 'SummonerBoost',
