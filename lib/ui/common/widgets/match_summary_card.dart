@@ -1,3 +1,4 @@
+// lib/widgets/match_summary_card.dart
 import 'package:flutter/material.dart';
 import 'package:wpgg/app/app.locator.dart';
 import 'package:wpgg/models/match_summary.dto.dart';
@@ -25,8 +26,9 @@ class _MatchSummaryCardState extends State<MatchSummaryCard> {
     if (widget.match.participants?.isNotEmpty == true) {
       if (widget.playerPuuid != null) {
         participant = widget.match.participants!.firstWhere(
-            (p) => p.accountDto?.puuid == widget.playerPuuid,
-            orElse: () => widget.match.participants!.first);
+          (p) => p.accountDto?.puuid == widget.playerPuuid,
+          orElse: () => widget.match.participants!.first,
+        );
       } else {
         participant = widget.match.participants!.first;
       }
@@ -45,7 +47,7 @@ class _MatchSummaryCardState extends State<MatchSummaryCard> {
                   ddragon.championIcon(participant!.championName!),
                   width: 40,
                   height: 40,
-                  errorBuilder: (context, error, stackTrace) =>
+                  errorBuilder: (_, __, ___) =>
                       const SizedBox(width: 40, height: 40),
                 ),
               if (participant?.championName != null) const SizedBox(width: 8),
@@ -53,9 +55,11 @@ class _MatchSummaryCardState extends State<MatchSummaryCard> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(widget.match.gameModeDto?.map ?? 'N/A',
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold)),
+                    Text(
+                      widget.match.gameModeDto?.map ?? 'N/A',
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
                     const SizedBox(height: 4),
                     Row(
                       children: [
@@ -75,8 +79,10 @@ class _MatchSummaryCardState extends State<MatchSummaryCard> {
                   ],
                 ),
               ),
-              Text('#${widget.match.queueId ?? '-'}',
-                  style: const TextStyle(color: Colors.grey, fontSize: 12)),
+              Text(
+                '#${widget.match.queueId ?? '-'}',
+                style: const TextStyle(color: Colors.grey, fontSize: 12),
+              ),
             ],
           ),
           const SizedBox(height: 8),
@@ -94,9 +100,9 @@ class _MatchSummaryCardState extends State<MatchSummaryCard> {
           Align(
             alignment: Alignment.bottomRight,
             child: IconButton(
-              icon: Icon(_expanded
-                  ? Icons.keyboard_arrow_up
-                  : Icons.keyboard_arrow_down),
+              icon: Icon(
+                _expanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+              ),
               onPressed: _toggle,
             ),
           ),
@@ -109,13 +115,11 @@ class _MatchSummaryCardState extends State<MatchSummaryCard> {
     final kda = p.deaths == 0
         ? ((p.kills ?? 0) + (p.assists ?? 0)).toDouble()
         : ((p.kills ?? 0) + (p.assists ?? 0)) / (p.deaths ?? 1);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'K/D/A: ${p.kills}/${p.deaths}/${p.assists} (KDA: ${kda.toStringAsFixed(1)})',
-        ),
+            'K/D/A: ${p.kills}/${p.deaths}/${p.assists} (KDA: ${kda.toStringAsFixed(1)})'),
         const SizedBox(height: 4),
         _buildBuildSummary(p, ddragon),
       ],
@@ -135,7 +139,7 @@ class _MatchSummaryCardState extends State<MatchSummaryCard> {
                     ddragon.championIcon(p.championName!),
                     width: 32,
                     height: 32,
-                    errorBuilder: (c, e, s) =>
+                    errorBuilder: (_, __, ___) =>
                         const SizedBox(width: 32, height: 32),
                   )
                 : null,
@@ -156,7 +160,7 @@ class _MatchSummaryCardState extends State<MatchSummaryCard> {
     final spells = [
       ddragon.summonerSpellIcon(p.summonerSpellsDto?.summoner1Id),
       ddragon.summonerSpellIcon(p.summonerSpellsDto?.summoner2Id),
-    ]..removeWhere((e) => e == null);
+    ]..removeWhere((url) => url == null);
 
     final items = [
       p.buildDto?.item0,
@@ -168,6 +172,20 @@ class _MatchSummaryCardState extends State<MatchSummaryCard> {
       p.buildDto?.item6,
     ];
 
+    final runeIds = p.runesDto?.styles
+            ?.expand((style) => style.selections ?? [])
+            .map((sel) => sel.perk)
+            .where((id) => id != null)
+            .cast<int>()
+            .toList() ??
+        [];
+
+    final shards = [
+      p.runesDto?.statPerks?.offense,
+      p.runesDto?.statPerks?.flex,
+      p.runesDto?.statPerks?.defense,
+    ]..removeWhere((id) => id == null);
+
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
@@ -175,60 +193,56 @@ class _MatchSummaryCardState extends State<MatchSummaryCard> {
         borderRadius: BorderRadius.circular(4),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: spells
-                  .map((url) => Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 2),
-                        child: Image.network(
-                          url!,
-                          width: 20,
-                          height: 20,
-                          errorBuilder: (c, e, s) =>
-                              const SizedBox(width: 20, height: 20),
-                        ),
-                      ))
-                  .toList(),
+              children: spells.map((url) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 2),
+                  child: Image.network(
+                    url!,
+                    width: 20,
+                    height: 20,
+                    errorBuilder: (_, __, ___) =>
+                        const SizedBox(width: 20, height: 20),
+                  ),
+                );
+              }).toList(),
             ),
           ),
           Expanded(
-            child: Center(
-              child: p.runesDto != null
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        if (p.runesDto!.styles?[0].selections?[0].perk != null)
-                          Image.network(
-                            ddragon.runeIcon(
-                                p.runesDto!.styles![0].selections![0].perk!),
-                            width: 20,
-                            height: 20,
-                            errorBuilder: (c, e, s) =>
-                                const SizedBox(width: 20, height: 20),
-                          ),
-                        if (p.runesDto!.styles?.length != null &&
-                            p.runesDto!.styles!.length > 1 &&
-                            p.runesDto!.styles![1].selections?[0].perk != null)
-                          ...[
-                            const SizedBox(width: 4),
-                            Image.network(
-                              ddragon.runeIcon(
-                                  p.runesDto!.styles![1].selections![0].perk!),
-                              width: 20,
-                              height: 20,
-                              errorBuilder: (c, e, s) =>
-                                  const SizedBox(width: 20, height: 20),
-                            ),
-                          ],
-                      ],
-                    )
-                  : const Text(
-                      'Runas N/A',
-                      style: TextStyle(fontSize: 12, color: Colors.grey),
-                    ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: runeIds.map((perkId) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 2),
+                  child: Image.network(
+                    ddragon.runeIcon(perkId)!,
+                    width: 20,
+                    height: 20,
+                    errorBuilder: (_, __, ___) =>
+                        const SizedBox(width: 20, height: 20),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: shards.map((shardId) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 2),
+                  child: Image.network(
+                    ddragon.runeIcon(shardId!)!,
+                    width: 20,
+                    height: 20,
+                    errorBuilder: (_, __, ___) =>
+                        const SizedBox(width: 20, height: 20),
+                  ),
+                );
+              }).toList(),
             ),
           ),
           Expanded(
@@ -241,7 +255,7 @@ class _MatchSummaryCardState extends State<MatchSummaryCard> {
                         ddragon.itemIcon(id!),
                         width: 20,
                         height: 20,
-                        errorBuilder: (c, e, s) =>
+                        errorBuilder: (_, __, ___) =>
                             const SizedBox(width: 20, height: 20),
                       ))
                   .toList(),

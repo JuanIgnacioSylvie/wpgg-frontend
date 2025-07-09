@@ -1194,6 +1194,28 @@ class MockDDragonService extends _i1.Mock implements _i17.DDragonService {
       ) as String);
 
   @override
+  String runeIcon(int? id) => (super.noSuchMethod(
+        Invocation.method(
+          #runeIcon,
+          [id],
+        ),
+        returnValue: _i8.dummyValue<String>(
+          this,
+          Invocation.method(
+            #runeIcon,
+            [id],
+          ),
+        ),
+        returnValueForMissingStub: _i8.dummyValue<String>(
+          this,
+          Invocation.method(
+            #runeIcon,
+            [id],
+          ),
+        ),
+      ) as String);
+
+  @override
   void dispose() => super.noSuchMethod(
         Invocation.method(
           #dispose,
@@ -1206,4 +1228,79 @@ class MockDDragonService extends _i1.Mock implements _i17.DDragonService {
 /// A class which mocks [ThemeService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockThemeService extends _i1.Mock implements _i18.ThemeService {}
+class MockThemeService extends _i1.Mock implements _i18.ThemeService {
+  @override
+  _i9.ThemeMode get themeMode => (super.noSuchMethod(
+        Invocation.getter(#themeMode),
+        returnValue: _i9.ThemeMode.system,
+        returnValueForMissingStub: _i9.ThemeMode.system,
+      ) as _i9.ThemeMode);
+
+  @override
+  bool get promptShown => (super.noSuchMethod(
+        Invocation.getter(#promptShown),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+
+  @override
+  bool get hasListeners => (super.noSuchMethod(
+        Invocation.getter(#hasListeners),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+
+  @override
+  void toggleTheme() => super.noSuchMethod(
+        Invocation.method(
+          #toggleTheme,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void markPromptShown() => super.noSuchMethod(
+        Invocation.method(
+          #markPromptShown,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void addListener(_i11.VoidCallback? listener) => super.noSuchMethod(
+        Invocation.method(
+          #addListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void removeListener(_i11.VoidCallback? listener) => super.noSuchMethod(
+        Invocation.method(
+          #removeListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void dispose() => super.noSuchMethod(
+        Invocation.method(
+          #dispose,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void notifyListeners() => super.noSuchMethod(
+        Invocation.method(
+          #notifyListeners,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+}

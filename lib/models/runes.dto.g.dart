@@ -61,8 +61,7 @@ RunesDTO _$RunesDTOFromJson(Map<String, dynamic> json) => RunesDTO(
           .toList(),
     );
 
-Map<String, dynamic> _$RunesDTOToJson(RunesDTO instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$RunesDTOToJson(RunesDTO instance) => <String, dynamic>{
       'statPerks': instance.statPerks?.toJson(),
       'styles': instance.styles?.map((e) => e.toJson()).toList(),
     };
