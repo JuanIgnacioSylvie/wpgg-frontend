@@ -1,14 +1,14 @@
 // lib/services/ddragon_service.dart
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../models/rune.model.dart';
+import '../models/rune.dto.dart';
 
 class DDragonService {
   DDragonService({http.Client? client}) : _client = client ?? http.Client();
 
   final http.Client _client;
   String? _version;
-  final Map<int, Rune> _runeMap = {};
+  final Map<int, RuneDTO> _runeMap = {};
   static const Map<int, String> _shardIcon = {
     5001: 'perk-images/StatMods/StatModsHealthScalingIcon.png',
     5002: 'perk-images/StatMods/StatModsArmorIcon.png',
@@ -47,7 +47,7 @@ class DDragonService {
             final id = rune['id'] as int;
             final icon = rune['icon'] as String;
             final name = rune['name'] as String? ?? '';
-            _runeMap[id] = Rune(id: id, name: name, icon: icon);
+            _runeMap[id] = RuneDTO(id: id, name: name, icon: icon);
           }
         }
       }
