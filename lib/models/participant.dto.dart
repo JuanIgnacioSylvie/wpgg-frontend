@@ -3,6 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'account.dto.dart';
 import 'summoner_spells.dto.dart';
 import 'build.dto.dart';
+import 'runes.dto.dart';
 
 part 'participant.dto.g.dart';
 
@@ -18,6 +19,7 @@ class ParticipantDTO {
     this.accountDto,
     this.summonerSpellsDto,
     this.buildDto,
+    this.runesDto,
   });
 
   String? championName;
@@ -30,6 +32,7 @@ class ParticipantDTO {
   AccountDTO? accountDto;
   SummonerSpellsDTO? summonerSpellsDto;
   BuildDTO? buildDto;
+  RunesDTO? runesDto;
 
   factory ParticipantDTO.fromJson(Map<String, dynamic> json) =>
       _$ParticipantDTOFromJson(json);

@@ -24,6 +24,9 @@ ParticipantDTO _$ParticipantDTOFromJson(Map<String, dynamic> json) =>
       buildDto: json['buildDto'] == null
           ? null
           : BuildDTO.fromJson(json['buildDto'] as Map<String, dynamic>),
+      runesDto: json['runesDto'] == null
+          ? null
+          : RunesDTO.fromJson(json['runesDto'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ParticipantDTOToJson(ParticipantDTO instance) =>
@@ -37,4 +40,5 @@ Map<String, dynamic> _$ParticipantDTOToJson(ParticipantDTO instance) =>
       'accountDto': instance.accountDto?.toJson(),
       'summonerSpellsDto': instance.summonerSpellsDto?.toJson(),
       'buildDto': instance.buildDto?.toJson(),
+      'runesDto': instance.runesDto?.toJson(),
     };
