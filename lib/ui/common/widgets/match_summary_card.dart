@@ -69,10 +69,9 @@ class _MatchSummaryCardState extends State<MatchSummaryCard> {
                               const TextStyle(color: Colors.grey, fontSize: 12),
                         ),
                         const SizedBox(width: 8),
-                        Text(
+                        const Text(
                           'Hace: N/A',
-                          style:
-                              const TextStyle(color: Colors.grey, fontSize: 12),
+                          style: TextStyle(color: Colors.grey, fontSize: 12),
                         ),
                       ],
                     ),

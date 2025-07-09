@@ -1,9 +1,6 @@
 // lib/services/ddragon_service.dart
 import 'dart:convert';
-
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
-
 import '../models/rune.dto.dart';
 
 class DDragonService {
@@ -24,6 +21,9 @@ class DDragonService {
       'https://ddragon.leagueoflegends.com/api/versions.json';
   late final String _baseDataUrl;
 
+  static const String _runeImgBaseUrl =
+      'https://ddragon.leagueoflegends.com/cdn/img';
+
   String get _baseImgUrl {
     final ver = _version ?? 'latest';
     return 'https://ddragon.leagueoflegends.com/cdn/$ver/img';
@@ -31,47 +31,27 @@ class DDragonService {
 
   Future<void> init() async {
     if (_version != null) return;
-
-    try {
-      final verRes = await _client.get(Uri.parse(_versionUrl));
-      if (verRes.statusCode == 200) {
-        final list = jsonDecode(verRes.body) as List<dynamic>;
-        if (list.isNotEmpty) _version = list.first as String;
-      }
-    } catch (_) {}
-
-    _baseDataUrl =
-        'https://ddragon.leagueoflegends.com/cdn/${_version ?? 'latest'}/data/en_US';
-
-    var loaded = false;
-    try {
-      final runesRes =
-          await _client.get(Uri.parse('$_baseDataUrl/runesReforged.json'));
-      if (runesRes.statusCode == 200) {
-        final data = jsonDecode(runesRes.body) as List<dynamic>;
-        _loadRunes(data);
-        loaded = true;
-      }
-    } catch (_) {}
-
-    if (!loaded) {
-      final localJson =
-          await rootBundle.loadString('lib/models/runesReforged.json');
-      final data = jsonDecode(localJson) as List<dynamic>;
-      _loadRunes(data);
+    final verRes = await _client.get(Uri.parse(_versionUrl));
+    if (verRes.statusCode == 200) {
+      final list = jsonDecode(verRes.body) as List<dynamic>;
+      if (list.isNotEmpty) _version = list.first as String;
     }
-  }
-
-  void _loadRunes(List<dynamic> data) {
-    for (final style in data) {
-      final slots = style['slots'] as List<dynamic>;
-      for (final slot in slots) {
-        final runes = slot['runes'] as List<dynamic>;
-        for (final rune in runes) {
-          final id = rune['id'] as int;
-          final icon = rune['icon'] as String;
-          final name = rune['name'] as String? ?? '';
-          _runeMap[id] = RuneDTO(id: id, name: name, icon: icon);
+    _baseDataUrl =
+        'https://ddragon.leagueoflegends.com/cdn/$_version/data/en_US';
+    final runesRes =
+        await _client.get(Uri.parse('$_baseDataUrl/runesReforged.json'));
+    if (runesRes.statusCode == 200) {
+      final data = jsonDecode(runesRes.body) as List<dynamic>;
+      for (final style in data) {
+        final slots = style['slots'] as List<dynamic>;
+        for (final slot in slots) {
+          final runes = slot['runes'] as List<dynamic>;
+          for (final rune in runes) {
+            final id = rune['id'] as int;
+            final icon = rune['icon'] as String;
+            final name = rune['name'] as String? ?? '';
+            _runeMap[id] = RuneDTO(id: id, name: name, icon: icon);
+          }
         }
       }
     }
@@ -109,7 +89,7 @@ class DDragonService {
   String? runeIcon(int id) {
     final iconPath = _runeMap[id]?.icon ?? _shardIcon[id];
     if (iconPath == null) return null;
-    return '$_baseImgUrl/$iconPath';
+    return '$_runeImgBaseUrl/$iconPath';
   }
 
   String? runeName(int id) => _runeMap[id]?.name;
