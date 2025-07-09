@@ -196,14 +196,39 @@ class _MatchSummaryCardState extends State<MatchSummaryCard> {
           ),
           Expanded(
             child: Center(
-              child: Text(
-                p.runesDto != null
-                    ? 'Runas: '
-                        '${p.runesDto!.styles?[0].selections?[0].perk ?? '-'} / '
-                        '${p.runesDto!.styles?.length > 1 ? p.runesDto!.styles?[1].selections?[0].perk : '-'}'
-                    : 'Runas N/A',
-                style: const TextStyle(fontSize: 12, color: Colors.grey),
-              ),
+              child: p.runesDto != null
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (p.runesDto!.styles?[0].selections?[0].perk != null)
+                          Image.network(
+                            ddragon.runeIcon(
+                                p.runesDto!.styles![0].selections![0].perk!),
+                            width: 20,
+                            height: 20,
+                            errorBuilder: (c, e, s) =>
+                                const SizedBox(width: 20, height: 20),
+                          ),
+                        if (p.runesDto!.styles?.length != null &&
+                            p.runesDto!.styles!.length > 1 &&
+                            p.runesDto!.styles![1].selections?[0].perk != null)
+                          ...[
+                            const SizedBox(width: 4),
+                            Image.network(
+                              ddragon.runeIcon(
+                                  p.runesDto!.styles![1].selections![0].perk!),
+                              width: 20,
+                              height: 20,
+                              errorBuilder: (c, e, s) =>
+                                  const SizedBox(width: 20, height: 20),
+                            ),
+                          ],
+                      ],
+                    )
+                  : const Text(
+                      'Runas N/A',
+                      style: TextStyle(fontSize: 12, color: Colors.grey),
+                    ),
             ),
           ),
           Expanded(
