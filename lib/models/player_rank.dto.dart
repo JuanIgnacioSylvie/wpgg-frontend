@@ -1,23 +1,17 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'rank_entry.dto.dart';
 
+part 'player_rank.dto.g.dart';
+
+@JsonSerializable(explicitToJson: true)
 class PlayerRankDTO {
   PlayerRankDTO({this.rankedSoloQ, this.rankedFlex});
 
   RankEntryDTO? rankedSoloQ;
   RankEntryDTO? rankedFlex;
 
-  factory PlayerRankDTO.fromJson(Map<String, dynamic> json) => PlayerRankDTO(
-        rankedSoloQ: json['rankedSoloQ'] == null
-            ? null
-            : RankEntryDTO.fromJson(
-                json['rankedSoloQ'] as Map<String, dynamic>),
-        rankedFlex: json['rankedFlex'] == null
-            ? null
-            : RankEntryDTO.fromJson(json['rankedFlex'] as Map<String, dynamic>),
-      );
+  factory PlayerRankDTO.fromJson(Map<String, dynamic> json) =>
+      _$PlayerRankDTOFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-        'rankedSoloQ': rankedSoloQ?.toJson(),
-        'rankedFlex': rankedFlex?.toJson(),
-      };
+  Map<String, dynamic> toJson() => _$PlayerRankDTOToJson(this);
 }
