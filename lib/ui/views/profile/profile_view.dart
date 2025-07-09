@@ -21,7 +21,7 @@ class ProfileView extends StackedView<ProfileViewModel> {
       body: Container(
         color: Theme.of(context).scaffoldBackgroundColor,
         child: viewModel.isBusy
-            ? const LoadingWidget()
+            ? LoadingWidget(progress: viewModel.loadingProgress)
             : SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
                 child: Column(

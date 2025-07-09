@@ -3,6 +3,7 @@ import 'package:stacked/stacked.dart';
 import 'package:wpgg/ui/common/app_colors.dart';
 import 'package:wpgg/app/app.locator.dart';
 import 'package:wpgg/services/theme_service.dart';
+import 'package:wpgg/ui/common/widgets/wpgg_logo.dart';
 
 import 'home_viewmodel.dart';
 
@@ -31,10 +32,7 @@ class HomeView extends StackedView<HomeViewModel> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset(
-                'WPGG_w_500_200.png',
-                width: 450,
-              ),
+              const WpggLogo(width: 450),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
