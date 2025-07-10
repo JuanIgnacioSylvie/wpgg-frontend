@@ -49,7 +49,7 @@ class HomeView extends StackedView<HomeViewModel> {
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: Theme.of(context).cardColor,
-                              hintText: 'Game name',
+                          hintText: 'Game name or Champion',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
                                 borderSide: BorderSide.none,
@@ -83,22 +83,6 @@ class HomeView extends StackedView<HomeViewModel> {
                         foregroundColor: Colors.white,
                       ),
                       child: const Text('Search'),
-                    ),
-                    const SizedBox(height: 16),
-                    SizedBox(
-                      width: 200,
-                      child: TextField(
-                        controller: viewModel.championController,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Theme.of(context).cardColor,
-                          hintText: 'Champion',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                      ),
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(

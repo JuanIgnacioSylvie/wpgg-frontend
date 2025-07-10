@@ -6,6 +6,7 @@ import 'package:wpgg/models/player_rank.dto.dart';
 import 'package:wpgg/models/stats.dto.dart';
 import 'package:wpgg/models/gameplay_recommendation.dto.dart';
 import 'package:wpgg/models/champion_detailed_stats.dto.dart';
+import 'package:wpgg/models/champion_global_stats.dto.dart';
 import '../app/app.locator.dart';
 import 'backend_api_service.dart';
 import 'secure_storage_service.dart';
@@ -144,6 +145,22 @@ class RiotApiService {
 
     await _secure.writeJson(cacheKey, data);
     return ChampionDetailedStatsDTO.fromJson(data);
+  }
+
+  // ---------- Champion Global Stats ------------------------------------
+  Future<ChampionGlobalStatsDTO> fetchChampionGlobalStats(String championName) async {
+    final cacheKey = 'champion_global_$championName';
+
+    final cached = await _secure.readJson(cacheKey);
+    if (cached != null) {
+      return ChampionGlobalStatsDTO.fromJson(cached as Map<String, dynamic>);
+    }
+
+    final data = await _api.get('$_base/champion-global/$championName')
+        as Map<String, dynamic>;
+
+    await _secure.writeJson(cacheKey, data);
+    return ChampionGlobalStatsDTO.fromJson(data);
   }
 
   // ---------- Gemini Recommendation ---------------------------------------
