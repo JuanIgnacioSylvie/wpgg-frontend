@@ -5,6 +5,7 @@ import 'package:wpgg/models/profile_account.dto.dart';
 import 'package:wpgg/models/player_rank.dto.dart';
 import 'package:wpgg/models/stats.dto.dart';
 import 'package:wpgg/models/gameplay_recommendation.dto.dart';
+import 'package:wpgg/models/champion_detailed_stats.dto.dart';
 import '../app/app.locator.dart';
 import 'backend_api_service.dart';
 import 'secure_storage_service.dart';
@@ -126,6 +127,23 @@ class RiotApiService {
 
     await _secure.writeJson(cacheKey, data);
     return PlayerRankDTO.fromJson(data);
+  }
+
+  // ---------- Champion Detailed Stats ------------------------------------
+  Future<ChampionDetailedStatsDTO> fetchChampionStats(
+      String puuid, String championName) async {
+    final cacheKey = 'champion_${puuid}_$championName';
+
+    final cached = await _secure.readJson(cacheKey);
+    if (cached != null) {
+      return ChampionDetailedStatsDTO.fromJson(cached as Map<String, dynamic>);
+    }
+
+    final data = await _api.get('$_base/champion-stats/$puuid/$championName')
+        as Map<String, dynamic>;
+
+    await _secure.writeJson(cacheKey, data);
+    return ChampionDetailedStatsDTO.fromJson(data);
   }
 
   // ---------- Gemini Recommendation ---------------------------------------
