@@ -15,6 +15,7 @@ import 'package:wpgg/services/theme_service.dart';
 import 'package:wpgg/ui/common/app_colors.dart';
 import 'package:wpgg/ui/common/widgets/snackbar_bar.dart';
 import 'package:wpgg/ui/views/profile/profile_view.dart';
+import 'package:wpgg/ui/views/champion/champion_view.dart';
 
 /// Entornos soportados
 enum AppEnvironment { dev, production }
