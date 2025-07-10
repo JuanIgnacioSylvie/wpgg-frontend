@@ -118,6 +118,45 @@ class ChampionView extends StackedView<ChampionViewModel> {
                           ],
                         ),
                       ),
+                    if (viewModel.stats!.bestSpells != null)
+                      WpggCard(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ...[
+                              viewModel.stats!.bestSpells!.summoner1Id,
+                              viewModel.stats!.bestSpells!.summoner2Id,
+                            ].whereType<int>().map(
+                              (id) => Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 2),
+                                child: Image.network(
+                                  ddragon.summonerSpellIcon(id)!,
+                                  width: 32,
+                                  height: 32,
+                                  errorBuilder: (_, __, ___) => const SizedBox(width: 32, height: 32),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    if (viewModel.stats!.bestSkillOrder != null &&
+                        viewModel.stats!.bestSkillOrder!.isNotEmpty)
+                      WpggCard(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(viewModel.stats!.bestSkillOrder!
+                                .map((e) => _slotToLetter(e))
+                                .join(' > ')),
+                          ],
+                        ),
+                      ),
+                    if (viewModel.stats!.roles != null)
+                      ...viewModel.stats!.roles!.map((r) => WpggCard(
+                            child: Text(
+                                '${r.role}: ${r.gamesPlayed} games - ${r.winRate?.toStringAsFixed(1) ?? '-'}% WR'),
+                          )),
                   ],
                 ],
               ),
@@ -131,4 +170,19 @@ class ChampionView extends StackedView<ChampionViewModel> {
 
   @override
   void onViewModelReady(ChampionViewModel viewModel) => viewModel.loadData();
+
+  String _slotToLetter(int slot) {
+    switch (slot) {
+      case 1:
+        return 'Q';
+      case 2:
+        return 'W';
+      case 3:
+        return 'E';
+      case 4:
+        return 'R';
+      default:
+        return slot.toString();
+    }
+  }
 }

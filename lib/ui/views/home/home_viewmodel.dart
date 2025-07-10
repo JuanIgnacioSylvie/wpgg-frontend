@@ -10,7 +10,6 @@ import 'package:wpgg/ui/common/widgets/snackbar_bar.dart';
 class HomeViewModel extends BaseViewModel {
   final gameController = TextEditingController();
   final tagController = TextEditingController();
-  final championController = TextEditingController();
 
   final RiotApiService _riot = locator<RiotApiService>();
   final NavigationService _nav = locator<NavigationService>();
@@ -51,16 +50,8 @@ class HomeViewModel extends BaseViewModel {
   Future<void> searchChampion() async {
     setBusy(true);
     try {
-      final puuid = await _secure.read('last_puuid');
-      if (puuid == null) {
-        _snackbar.showCustomSnackBar(
-          variant: SnackbarType.error,
-          message: 'No summoner selected',
-        );
-        return;
-      }
       await _nav.navigateToChampionView(
-        championName: championController.text,
+        championName: gameController.text,
       );
     } finally {
       setBusy(false);
@@ -71,7 +62,6 @@ class HomeViewModel extends BaseViewModel {
   void dispose() {
     gameController.dispose();
     tagController.dispose();
-    championController.dispose();
     super.dispose();
   }
 }
