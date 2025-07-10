@@ -148,7 +148,8 @@ class RiotApiService {
   }
 
   // ---------- Champion Global Stats ------------------------------------
-  Future<ChampionGlobalStatsDTO> fetchChampionGlobalStats(String championName) async {
+  Future<ChampionGlobalStatsDTO> fetchChampionGlobalStats(
+      String championName) async {
     final cacheKey = 'champion_global_$championName';
 
     final cached = await _secure.readJson(cacheKey);

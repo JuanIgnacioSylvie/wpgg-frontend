@@ -6,7 +6,8 @@ part of 'champion_global_stats.dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ChampionGlobalStatsDTO _$ChampionGlobalStatsDTOFromJson(Map<String, dynamic> json) =>
+ChampionGlobalStatsDTO _$ChampionGlobalStatsDTOFromJson(
+        Map<String, dynamic> json) =>
     ChampionGlobalStatsDTO(
       championName: json['championName'] as String?,
       gamesPlayed: (json['gamesPlayed'] as num?)?.toInt(),
@@ -20,14 +21,19 @@ ChampionGlobalStatsDTO _$ChampionGlobalStatsDTOFromJson(Map<String, dynamic> jso
           : RunesDTO.fromJson(json['bestRunes'] as Map<String, dynamic>),
       bestSpells: json['bestSpells'] == null
           ? null
-          : SummonerSpellsDTO.fromJson(json['bestSpells'] as Map<String, dynamic>),
-      bestSkillOrder: (json['bestSkillOrder'] as List<dynamic>?)?.map((e) => e as int).toList(),
+          : SummonerSpellsDTO.fromJson(
+              json['bestSpells'] as Map<String, dynamic>),
+      bestSkillOrder: (json['bestSkillOrder'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList(),
       roles: (json['roles'] as List<dynamic>?)
           ?.map((e) => RoleStatsDTO.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$ChampionGlobalStatsDTOToJson(ChampionGlobalStatsDTO instance) => <String, dynamic>{
+Map<String, dynamic> _$ChampionGlobalStatsDTOToJson(
+        ChampionGlobalStatsDTO instance) =>
+    <String, dynamic>{
       'championName': instance.championName,
       'gamesPlayed': instance.gamesPlayed,
       'wins': instance.wins,

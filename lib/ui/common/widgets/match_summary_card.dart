@@ -4,7 +4,6 @@ import 'package:wpgg/app/app.locator.dart';
 import 'package:wpgg/models/match_summary.dto.dart';
 import 'package:wpgg/models/participant.dto.dart';
 import 'package:wpgg/services/ddragon_service.dart';
-import 'wpgg_card.dart';
 
 class MatchSummaryCard extends StatefulWidget {
   final MatchSummaryDTO match;
@@ -17,91 +16,49 @@ class MatchSummaryCard extends StatefulWidget {
 
 class _MatchSummaryCardState extends State<MatchSummaryCard> {
   bool _expanded = false;
-
   void _toggle() => setState(() => _expanded = !_expanded);
+
+  // -------------------------------------------------------------
 
   @override
   Widget build(BuildContext context) {
-    ParticipantDTO? participant;
-    if (widget.match.participants?.isNotEmpty == true) {
-      if (widget.playerPuuid != null) {
-        participant = widget.match.participants!.firstWhere(
-          (p) => p.accountDto?.puuid == widget.playerPuuid,
-          orElse: () => widget.match.participants!.first,
-        );
-      } else {
-        participant = widget.match.participants!.first;
-      }
-    }
     final ddragon = locator<DDragonService>();
 
-    return WpggCard(
+    // ── participante principal (el usuario) ─────────────────────
+    ParticipantDTO? me;
+    if (widget.match.participants?.isNotEmpty == true) {
+      me = widget.match.participants!.firstWhere(
+        (p) => p.accountDto?.puuid == widget.playerPuuid,
+        orElse: () => widget.match.participants!.first,
+      );
+    }
+
+    // ── colores por resultado ───────────────────────────────────
+    final bool myTeamWon = me?.win == true;
+    final Color bgColor = myTeamWon
+        ? const Color(0xFFB9D7F5) // azul victoria
+        : const Color(0xFFF5C5C5); // rojo derrota
+
+    // ── contenedor principal ────────────────────────────────────
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
       padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              if (participant?.championName != null)
-                Image.network(
-                  ddragon.championIcon(participant!.championName!),
-                  width: 40,
-                  height: 40,
-                  errorBuilder: (_, __, ___) =>
-                      const SizedBox(width: 40, height: 40),
-                ),
-              if (participant?.championName != null) const SizedBox(width: 8),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.match.gameModeDto?.map ?? 'N/A',
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 4),
-                    Row(
-                      children: [
-                        Text(
-                          'Dur: ${(widget.match.gameDuration ?? 0) ~/ 60}m',
-                          style:
-                              const TextStyle(color: Colors.grey, fontSize: 12),
-                        ),
-                        const SizedBox(width: 8),
-                        const Text(
-                          'Hace: N/A',
-                          style: TextStyle(color: Colors.grey, fontSize: 12),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Text(
-                '#${widget.match.queueId ?? '-'}',
-                style: const TextStyle(color: Colors.grey, fontSize: 12),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          if (participant != null)
-            _buildParticipantSummary(participant, ddragon),
-          if (_expanded) ...[
-            const Divider(),
-            Column(
-              children: widget.match.participants
-                      ?.map((p) => _buildParticipantDetail(p, ddragon))
-                      .toList() ??
-                  [],
-            ),
-          ],
+          _buildCompact(me, ddragon),
+          if (_expanded) const SizedBox(height: 6),
+          if (_expanded) _buildExpanded(ddragon),
           Align(
-            alignment: Alignment.bottomRight,
+            alignment: Alignment.centerRight,
             child: IconButton(
-              icon: Icon(
-                _expanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-              ),
+              padding: EdgeInsets.zero,
+              icon: Icon(_expanded
+                  ? Icons.keyboard_arrow_up
+                  : Icons.keyboard_arrow_down),
               onPressed: _toggle,
             ),
           ),
@@ -110,56 +67,179 @@ class _MatchSummaryCardState extends State<MatchSummaryCard> {
     );
   }
 
-  Widget _buildParticipantSummary(ParticipantDTO p, DDragonService ddragon) {
-    final kda = p.deaths == 0
-        ? ((p.kills ?? 0) + (p.assists ?? 0)).toDouble()
-        : ((p.kills ?? 0) + (p.assists ?? 0)) / (p.deaths ?? 1);
-    return Column(
+  // -------------------------------------------------------------
+  // VISTA COMPACTA
+  // -------------------------------------------------------------
+  Widget _buildCompact(ParticipantDTO? me, DDragonService dd) {
+    if (me == null) return const SizedBox.shrink();
+
+    final double kdaRatio = me.deaths == 0
+        ? (me.kills ?? 0 + (me.assists ?? 0)).toDouble()
+        : (me.kills ?? 0 + (me.assists ?? 0)) / (me.deaths ?? 1);
+
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-            'K/D/A: ${p.kills}/${p.deaths}/${p.assists} (KDA: ${kda.toStringAsFixed(1)})'),
-        const SizedBox(height: 4),
-        _buildBuildSummary(p, ddragon),
+        // ── Icono de campeón ────────────────────────────────────
+        Image.network(
+          dd.championIcon(me.championName ?? ''),
+          width: 48,
+          height: 48,
+          errorBuilder: (_, __, ___) => const SizedBox(width: 48, height: 48),
+        ),
+        const SizedBox(width: 6),
+        // ── Hechizos y runas ─────────────────────────────────────
+        Column(
+          children: [
+            Image.network(
+              dd.summonerSpellIcon(me.summonerSpellsDto?.summoner1Id) ?? '',
+              width: 20,
+              height: 20,
+              errorBuilder: (_, __, ___) =>
+                  const SizedBox(width: 20, height: 20),
+            ),
+            const SizedBox(height: 2),
+            Image.network(
+              dd.summonerSpellIcon(me.summonerSpellsDto?.summoner2Id) ?? '',
+              width: 20,
+              height: 20,
+              errorBuilder: (_, __, ___) =>
+                  const SizedBox(width: 20, height: 20),
+            ),
+          ],
+        ),
+        const SizedBox(width: 6),
+        Column(
+          children: [
+            // runa principal
+            Image.network(
+              dd.runeIcon(
+                      me.runesDto?.styles?.first.selections?.first.perk ?? 0) ??
+                  '',
+              width: 20,
+              height: 20,
+              errorBuilder: (_, __, ___) =>
+                  const SizedBox(width: 20, height: 20),
+            ),
+            const SizedBox(height: 2),
+            // runa secundaria
+            if ((me.runesDto?.styles?.length ?? 0) > 1)
+              Image.network(
+                dd.runeIcon(me.runesDto?.styles?[1].style ?? 0) ?? '',
+                width: 20,
+                height: 20,
+                errorBuilder: (_, __, ___) =>
+                    const SizedBox(width: 20, height: 20),
+              ),
+          ],
+        ),
+        const SizedBox(width: 10),
+        // ── KDA y ratio ─────────────────────────────────────────
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "${me.kills}/${me.deaths}/${me.assists}",
+              style: const TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold),
+            ),
+            Text(
+              me.deaths == 0
+                  ? "Perfect KDA"
+                  : "${kdaRatio.toStringAsFixed(1)}:1 KDA",
+              style: const TextStyle(fontFamily: 'Roboto', fontSize: 12),
+            ),
+          ],
+        ),
+        const Spacer(),
+        // ── Info de partida ─────────────────────────────────────
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text(
+              widget.match.gameModeDto?.map ?? 'N/A',
+              style: const TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold),
+            ),
+            Text(
+              "Dur: ${(widget.match.gameDuration ?? 0) ~/ 60}m",
+              style: const TextStyle(fontFamily: 'Roboto', fontSize: 12),
+            ),
+            const Text("Hace: N/A",
+                style: TextStyle(fontFamily: 'Roboto', fontSize: 12)),
+          ],
+        ),
       ],
     );
   }
 
-  Widget _buildParticipantDetail(ParticipantDTO p, DDragonService ddragon) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Column(
+  // -------------------------------------------------------------
+  // VISTA EXPANDIDA
+  // -------------------------------------------------------------
+  Widget _buildExpanded(DDragonService dd) {
+    final blue =
+        widget.match.participants?.where((p) => p.teamId == 100).toList() ?? [];
+    final red =
+        widget.match.participants?.where((p) => p.teamId == 200).toList() ?? [];
+
+    Widget section(String title, List<ParticipantDTO> list, Color color) {
+      return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            leading: p.championName != null
-                ? Image.network(
-                    ddragon.championIcon(p.championName!),
-                    width: 32,
-                    height: 32,
-                    errorBuilder: (_, __, ___) =>
-                        const SizedBox(width: 32, height: 32),
-                  )
-                : null,
-            title: Text(p.accountDto?.gameName ?? '-'),
-            subtitle: Text('K/D/A: ${p.kills}/${p.deaths}/${p.assists}'),
-            trailing: Text(p.win == true ? 'Win' : 'Loss'),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 72),
-            child: _buildBuildSummary(p, ddragon),
-          ),
+          Text(title,
+              style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontWeight: FontWeight.bold,
+                  color: color)),
+          const SizedBox(height: 4),
+          ...list.map((p) => _playerRow(p, dd)),
+          const SizedBox(height: 6),
         ],
-      ),
+      );
+    }
+
+    final bool blueWon =
+        widget.match.participants?.firstWhere((p) => p.teamId == 100).win ??
+            false;
+
+    return Column(
+      children: [
+        section(
+          blueWon ? "Victoria (Lado azul)" : "Derrota (Lado azul)",
+          blue,
+          blueWon ? Colors.blueAccent : Colors.redAccent,
+        ),
+        section(
+          !blueWon ? "Victoria (Lado rojo)" : "Derrota (Lado rojo)",
+          red,
+          !blueWon ? Colors.blueAccent : Colors.redAccent,
+        ),
+      ],
     );
   }
 
-  Widget _buildBuildSummary(ParticipantDTO p, DDragonService ddragon) {
+  // -------------------------------------------------------------
+  // FILA DE JUGADOR EN VISTA EXPANDIDA
+  // -------------------------------------------------------------
+  Widget _playerRow(ParticipantDTO p, DDragonService dd) {
+    final kda = p.deaths == 0
+        ? (p.kills ?? 0 + (p.assists ?? 0)).toDouble()
+        : (p.kills ?? 0 + (p.assists ?? 0)) / (p.deaths ?? 1);
+
     final spells = [
-      ddragon.summonerSpellIcon(p.summonerSpellsDto?.summoner1Id),
-      ddragon.summonerSpellIcon(p.summonerSpellsDto?.summoner2Id),
-    ]..removeWhere((url) => url == null);
+      dd.summonerSpellIcon(p.summonerSpellsDto?.summoner1Id),
+      dd.summonerSpellIcon(p.summonerSpellsDto?.summoner2Id),
+    ];
+
+    final runes = [
+      dd.runeIcon(p.runesDto?.styles?.first.selections?.first.perk ?? 0),
+      if ((p.runesDto?.styles?.length ?? 0) > 1)
+        dd.runeIcon(p.runesDto?.styles?[1].style ?? 0),
+    ];
 
     final items = [
       p.buildDto?.item0,
@@ -171,94 +251,86 @@ class _MatchSummaryCardState extends State<MatchSummaryCard> {
       p.buildDto?.item6,
     ];
 
-    final runeIds = p.runesDto?.styles
-            ?.expand((style) => style.selections ?? [])
-            .map((sel) => sel.perk)
-            .where((id) => id != null)
-            .cast<int>()
-            .toList() ??
-        [];
-
-    final shards = [
-      p.runesDto?.statPerks?.offense,
-      p.runesDto?.statPerks?.flex,
-      p.runesDto?.statPerks?.defense,
-    ]..removeWhere((id) => id == null);
-
-    return Container(
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade300),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Row(
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      child: Column(
         children: [
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: spells.map((url) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 2),
-                  child: Image.network(
-                    url!,
-                    width: 20,
-                    height: 20,
-                    errorBuilder: (_, __, ___) =>
-                        const SizedBox(width: 20, height: 20),
-                  ),
-                );
-              }).toList(),
-            ),
+          Row(
+            children: [
+              // Campeón
+              if (p.championName != null)
+                Image.network(
+                  dd.championIcon(p.championName!),
+                  width: 20,
+                  height: 20,
+                  errorBuilder: (_, __, ___) =>
+                      const SizedBox(width: 20, height: 20),
+                ),
+              const SizedBox(width: 4),
+              // Hechizos
+              Column(
+                children: spells
+                    .where((e) => e != null)
+                    .map((s) => Image.network(
+                          s!,
+                          width: 14,
+                          height: 14,
+                          errorBuilder: (_, __, ___) =>
+                              const SizedBox(width: 14, height: 14),
+                        ))
+                    .toList(),
+              ),
+              const SizedBox(width: 4),
+              // Runas
+              Column(
+                children: runes
+                    .where((e) => e != null)
+                    .map((r) => Image.network(
+                          r!,
+                          width: 14,
+                          height: 14,
+                          errorBuilder: (_, __, ___) =>
+                              const SizedBox(width: 14, height: 14),
+                        ))
+                    .toList(),
+              ),
+              const SizedBox(width: 6),
+              // Nombre del invocador
+              Expanded(
+                child: Text(
+                  p.accountDto?.gameName ?? '-',
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontFamily: 'Roboto', fontSize: 12),
+                ),
+              ),
+              // Resultado
+              Text(p.win == true ? 'Win' : 'Loss',
+                  style: const TextStyle(fontFamily: 'Roboto', fontSize: 12)),
+            ],
           ),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: runeIds.map((perkId) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 2),
-                  child: Image.network(
-                    ddragon.runeIcon(perkId)!,
-                    width: 20,
-                    height: 20,
-                    errorBuilder: (_, __, ___) =>
-                        const SizedBox(width: 20, height: 20),
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: shards.map((shardId) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 2),
-                  child: Image.network(
-                    ddragon.runeIcon(shardId!)!,
-                    width: 20,
-                    height: 20,
-                    errorBuilder: (_, __, ___) =>
-                        const SizedBox(width: 20, height: 20),
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
-          Expanded(
-            child: Wrap(
-              spacing: 2,
-              alignment: WrapAlignment.center,
-              children: items
-                  .where((id) => id != null && id! > 0)
-                  .map((id) => Image.network(
-                        ddragon.itemIcon(id!),
-                        width: 20,
-                        height: 20,
-                        errorBuilder: (_, __, ___) =>
-                            const SizedBox(width: 20, height: 20),
-                      ))
-                  .toList(),
-            ),
+          const SizedBox(height: 2),
+          Row(
+            children: [
+              const SizedBox(width: 38), // sangría para alinear con íconos
+              Text(
+                "${p.kills}/${p.deaths}/${p.assists}  •  ${kda.toStringAsFixed(1)} KDA",
+                style: const TextStyle(fontFamily: 'Roboto', fontSize: 11),
+              ),
+              const Spacer(),
+              Wrap(
+                spacing: 2,
+                children: items
+                    .where((id) => id != null && id! > 0)
+                    .map((id) => Image.network(
+                          dd.itemIcon(id!),
+                          width: 16,
+                          height: 16,
+                          errorBuilder: (_, __, ___) =>
+                              const SizedBox(width: 16, height: 16),
+                        ))
+                    .toList(),
+              ),
+            ],
           ),
         ],
       ),

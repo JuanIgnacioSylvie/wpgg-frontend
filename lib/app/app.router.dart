@@ -5,14 +5,14 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:flutter/material.dart' as _i5;
+import 'package:flutter/material.dart' as _i6;
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i6;
+import 'package:stacked_services/stacked_services.dart' as _i7;
+import 'package:wpgg/ui/views/champion/champion_view.dart' as _i5;
 import 'package:wpgg/ui/views/home/home_view.dart' as _i2;
 import 'package:wpgg/ui/views/profile/profile_view.dart' as _i4;
 import 'package:wpgg/ui/views/startup/startup_view.dart' as _i3;
-import 'package:wpgg/ui/views/champion/champion_view.dart' as _i7;
 
 class Routes {
   static const homeView = '/home-view';
@@ -47,7 +47,7 @@ class StackedRouter extends _i1.RouterBase {
     ),
     _i1.RouteDef(
       Routes.championView,
-      page: _i7.ChampionView,
+      page: _i5.ChampionView,
     ),
   ];
 
@@ -56,32 +56,28 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<HomeViewArguments>(
         orElse: () => const HomeViewArguments(),
       );
-      return _i5.MaterialPageRoute<dynamic>(
+      return _i6.MaterialPageRoute<dynamic>(
         builder: (context) => _i2.HomeView(key: args.key),
         settings: data,
       );
     },
     _i3.StartupView: (data) {
-      return _i5.MaterialPageRoute<dynamic>(
+      return _i6.MaterialPageRoute<dynamic>(
         builder: (context) => const _i3.StartupView(),
         settings: data,
       );
     },
     _i4.ProfileView: (data) {
-      return _i5.MaterialPageRoute<dynamic>(
+      return _i6.MaterialPageRoute<dynamic>(
         builder: (context) => const _i4.ProfileView(),
         settings: data,
       );
     },
-    _i7.ChampionView: (data) {
-      final args = data.getArgs<ChampionViewArguments>(
-        orElse: () => const ChampionViewArguments(),
-      );
-      return _i5.MaterialPageRoute<dynamic>(
-        builder: (context) => ChampionView(
-          key: args.key,
-          championName: args.championName,
-        ),
+    _i5.ChampionView: (data) {
+      final args = data.getArgs<ChampionViewArguments>(nullOk: false);
+      return _i6.MaterialPageRoute<dynamic>(
+        builder: (context) =>
+            _i5.ChampionView(key: args.key, championName: args.championName),
         settings: data,
       );
     },
@@ -97,7 +93,7 @@ class StackedRouter extends _i1.RouterBase {
 class HomeViewArguments {
   const HomeViewArguments({this.key});
 
-  final _i5.Key? key;
+  final _i6.Key? key;
 
   @override
   String toString() {
@@ -117,9 +113,13 @@ class HomeViewArguments {
 }
 
 class ChampionViewArguments {
-  const ChampionViewArguments({this.key, required this.championName});
+  const ChampionViewArguments({
+    this.key,
+    required this.championName,
+  });
 
-  final _i5.Key? key;
+  final _i6.Key? key;
+
   final String championName;
 
   @override
@@ -139,9 +139,9 @@ class ChampionViewArguments {
   }
 }
 
-extension NavigatorStateExtension on _i6.NavigationService {
+extension NavigatorStateExtension on _i7.NavigationService {
   Future<dynamic> navigateToHomeView({
-    _i5.Key? key,
+    _i6.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -185,7 +185,7 @@ extension NavigatorStateExtension on _i6.NavigationService {
   }
 
   Future<dynamic> navigateToChampionView({
-    _i5.Key? key,
+    _i6.Key? key,
     required String championName,
     int? routerId,
     bool preventDuplicates = true,
@@ -194,8 +194,7 @@ extension NavigatorStateExtension on _i6.NavigationService {
         transition,
   }) async {
     return navigateTo<dynamic>(Routes.championView,
-        arguments:
-            ChampionViewArguments(key: key, championName: championName),
+        arguments: ChampionViewArguments(key: key, championName: championName),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -203,7 +202,7 @@ extension NavigatorStateExtension on _i6.NavigationService {
   }
 
   Future<dynamic> replaceWithHomeView({
-    _i5.Key? key,
+    _i6.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -247,7 +246,7 @@ extension NavigatorStateExtension on _i6.NavigationService {
   }
 
   Future<dynamic> replaceWithChampionView({
-    _i5.Key? key,
+    _i6.Key? key,
     required String championName,
     int? routerId,
     bool preventDuplicates = true,
@@ -256,8 +255,7 @@ extension NavigatorStateExtension on _i6.NavigationService {
         transition,
   }) async {
     return replaceWith<dynamic>(Routes.championView,
-        arguments:
-            ChampionViewArguments(key: key, championName: championName),
+        arguments: ChampionViewArguments(key: key, championName: championName),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

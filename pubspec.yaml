@@ -33,4 +33,5 @@ flutter:
   # Incluye **todo** lo que esté dentro de assets/
   assets:
     - env    
-    - assets/    - lib/models/runesReforged.json
+    - assets/
+    - lib/models/runesReforged.json

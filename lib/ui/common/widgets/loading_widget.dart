@@ -34,8 +34,9 @@ class _LoadingWidgetState extends State<LoadingWidget>
 
   @override
   Widget build(BuildContext context) {
-    final progressColor =
-        Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black;
+    final progressColor = Theme.of(context).brightness == Brightness.dark
+        ? Colors.white
+        : Colors.black;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(20),

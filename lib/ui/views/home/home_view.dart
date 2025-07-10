@@ -49,7 +49,7 @@ class HomeView extends StackedView<HomeViewModel> {
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: Theme.of(context).cardColor,
-                          hintText: 'Game name or Champion',
+                              hintText: 'Game name or Champion',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
                                 borderSide: BorderSide.none,

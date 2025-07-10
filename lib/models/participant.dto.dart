@@ -16,6 +16,7 @@ class ParticipantDTO {
     this.assists,
     this.goldEarned,
     this.win,
+    this.teamId,
     this.accountDto,
     this.summonerSpellsDto,
     this.buildDto,
@@ -33,6 +34,7 @@ class ParticipantDTO {
   SummonerSpellsDTO? summonerSpellsDto;
   BuildDTO? buildDto;
   RunesDTO? runesDto;
+  int? teamId;
 
   factory ParticipantDTO.fromJson(Map<String, dynamic> json) =>
       _$ParticipantDTOFromJson(json);
